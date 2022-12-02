@@ -12,12 +12,11 @@ const entries = await contentfulClient.getEntries<any>({
 const desktopImageId = entries.items[0].fields.desktopImage.sys.id;
 const mobileImageId = entries.items[0].fields.mobileImage.sys.id;
 const assets = entries.includes.Asset;
-const desktopImageUrl = assets.find(
+
+const desktopImage = assets.find(
   (asset: any) => asset.sys.id === desktopImageId
 );
-const mobileImageUrl = assets.find(
-  (asset: any) => asset.sys.id === mobileImageId
-);
+const mobileImage = assets.find((asset: any) => asset.sys.id === mobileImageId);
 
 const adventureLocation = entries.items[0].fields.adventureLocation;
 const nextTripLocationName = entries.items[0].fields.nextTripLocationName;
@@ -34,14 +33,14 @@ const dates = entries.items[0].fields.dates;
     <section>
       <div class="desktop-image">
         <img
-          src={desktopImageUrl.fields.file.url}
-          alt={desktopImageUrl.fields.description}
+          src={desktopImage.fields.file.url}
+          alt={desktopImage.fields.description}
         />
       </div>
       <div class="mobile-image">
         <img
-          src={mobileImageUrl.fields.file.url}
-          alt={mobileImageUrl.fields.description}
+          src={mobileImage.fields.file.url}
+          alt={mobileImage.fields.description}
         />
       </div>
     </section>
@@ -78,11 +77,13 @@ const dates = entries.items[0].fields.dates;
         </div>
       </div>
       <div class="quote">
-        <h1>
-        push your rush
-      </h1>
+        <h1>push your rush</h1>
       </div>
-      <div>Name</div>
+      <div style="display:flex; justify-content: flex-end; ">
+        <div class="credit">
+          <p>{mobileImage.fields.description}</p>
+        </div>
+      </div>
     </section>
   </main>
   <Footer />
@@ -148,6 +149,15 @@ const dates = entries.items[0].fields.dates;
     font-size: 72px;
     line-height: 45px;
     transform: rotate(-3.51deg);
+  }
+  .credit {
+    color: white;
+    transform: translateY(-610px) translateX(14px) rotate(-90deg);
+  text-transform: uppercase;
+  font-size: 8px;
+  line-height: 9.6px;
+  letter-spacing: 0.05em;
+    right: 0;
   }
   @media (min-width: 1024px) {
     .desktop-image {

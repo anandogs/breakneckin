@@ -1,81 +1,166 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.svelte";
+import Footer from "../components/Footer.svelte";
+
+import { contentfulClient } from "../lib/contentful";
+
+const entries = await contentfulClient.getEntries<any>({
+  content_type: "landingPage",
+});
+
+const desktopImageId = entries.items[0].fields.desktopImage.sys.id;
+const mobileImageId = entries.items[0].fields.mobileImage.sys.id;
+const assets = entries.includes.Asset;
+const desktopImageUrl = assets.find(
+  (asset: any) => asset.sys.id === desktopImageId
+);
+const mobileImageUrl = assets.find(
+  (asset: any) => asset.sys.id === mobileImageId
+);
+
+const adventureLocation = entries.items[0].fields.adventureLocation;
+const nextTripLocationName = entries.items[0].fields.nextTripLocationName;
+const nextTripCoordinates = entries.items[0].fields.nextTripCoordinates;
+const adventureName = entries.items[0].fields.adventureName;
+const adventureDescription = entries.items[0].fields.adventureDescription;
+const dates = entries.items[0].fields.dates;
 ---
 
 <Layout title="Welcome to Astro.">
-	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
-	</main>
+  <Header adventureLocation={adventureLocation} client:load />
+
+  <main>
+    <section>
+      <div class="desktop-image">
+        <img
+          src={desktopImageUrl.fields.file.url}
+          alt={desktopImageUrl.fields.description}
+        />
+      </div>
+      <div class="mobile-image">
+        <img
+          src={mobileImageUrl.fields.file.url}
+          alt={mobileImageUrl.fields.description}
+        />
+      </div>
+    </section>
+    <section class="black-box">
+      <div class="red-box">
+        <div class="font-style-2">
+          <p>NEXT TRIP</p>
+        </div>
+        <div class="font-style-1">
+          <h1>{nextTripLocationName}</h1>
+        </div>
+        <div style="font-size: 10px; line-height: 12px;">
+          <p>{nextTripCoordinates}</p>
+        </div>
+        <div class="horizontal-line"></div>
+        <div class="font-style-2">
+          <p>ADVENTURE</p>
+        </div>
+        <div class="font-style-1">
+          <h1>{adventureName}</h1>
+        </div>
+        <div style="font-size: 12px; line-height: 17px;">
+          <p>{adventureDescription}</p>
+        </div>
+        <div class="horizontal-line"></div>
+        <div class="font-style-2">
+          <p>DATES</p>
+        </div>
+        <div class="font-style-1">
+          <h1>{dates}</h1>
+        </div>
+        <div style="width: fit-content; padding-top: 7px;">
+          <button>TELL ME MORE</button>
+        </div>
+      </div>
+      <div class="quote">
+        <h1>
+        push your rush
+      </h1>
+      </div>
+      <div>Name</div>
+    </section>
+  </main>
+  <Footer />
 </Layout>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	h1 {
-		font-size: 3rem;
-		font-weight: 800;
-		margin: 0;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		line-height: 1.6;
-		margin: 1rem 0;
-		border: 1px solid rgba(var(--accent), 25%);
-		background-color: white;
-		padding: 1rem;
-		border-radius: 0.4rem;
-	}
-	.instructions code {
-		font-size: 0.875em;
-		font-weight: bold;
-		background: rgba(var(--accent), 12%);
-		color: rgb(var(--accent));
-		border-radius: 4px;
-		padding: 0.3em 0.45em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
-	}
+  main {
+    background-color: black;
+  }
+  .desktop-image {
+    display: none;
+  }
+  .mobile-image img {
+    width: 100%;
+  }
+  .black-box {
+    height: 400px;
+    background-color: black;
+  }
+  .red-box {
+    background-color: #ff4800;
+    width: 84%;
+    position: absolute;
+    right: 0;
+    transform: translateY(-50%);
+    max-width: 303px;
+    display: grid;
+    row-gap: 8px;
+    padding-top: 25px;
+    padding-bottom: 28px;
+  }
+  .red-box div {
+    padding-left: 29px;
+    padding-right: 33px;
+  }
+
+  .font-style-1 {
+    font-size: 35px;
+    line-height: 36.05px;
+  }
+  .font-style-2 {
+    font-size: 12px;
+    line-height: 14.4px;
+    letter-spacing: 0.05em;
+  }
+  .font-style-3 {
+  }
+  .horizontal-line {
+    border-bottom: 1px;
+    border-color: black;
+    border-style: solid;
+    margin-left: 29px;
+    margin-right: 33px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+  }
+  .quote {
+    width: 65%;
+    max-width: 234.37px;
+    color: white;
+    padding-top: 248px;
+    padding-left: 78px;
+    font-size: 72px;
+    line-height: 45px;
+    transform: rotate(-3.51deg);
+  }
+  @media (min-width: 1024px) {
+    .desktop-image {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .desktop-image img {
+      width: 100%;
+    }
+    .mobile-image {
+      display: none;
+    }
+  }
 </style>

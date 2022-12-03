@@ -162,6 +162,9 @@ const { title } = Astro.props;
   }
   button {
     font-family: 'Brother', Fallback, sans-serif;
+    letter-spacing: 0.05em;
+    font-size: 9px;
+    line-height: 10.8px;
     color: white;
     background-color: black;
     border: 0px;
@@ -169,5 +172,16 @@ const { title } = Astro.props;
     padding-bottom: 10px;
     padding-left: 15px;
     padding-right: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    button {
+      padding-top: 14px;
+      padding-bottom: 15px;
+      padding-left: 38px;
+      padding-right: 39px;
+      font-size: 14px;
+      line-height: 16.8px;
+    }
   }
 </style>

@@ -1,7 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.svelte";
+import Footer from "../components/Footer.svelte";
 
 import { contentfulClient } from "../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 
 const entries = await contentfulClient.getEntries<any>({
@@ -17,6 +20,7 @@ const desktopImage = assets.find(
 );
 const mobileImage = assets.find((asset: any) => asset.sys.id === mobileImageId);
 
+const adventureLocation = entries.items[0].fields.adventureLocation;
 const nextTripLocationName = entries.items[0].fields.nextTripLocationName;
 const nextTripCoordinates = entries.items[0].fields.nextTripCoordinates;
 const adventureName = entries.items[0].fields.adventureName;
@@ -26,67 +30,7 @@ const dates = entries.items[0].fields.dates;
 
 <Layout title="Welcome to Astro.">
   
-
-  <main>
-    <section>
-      <div class="desktop-image">
-        <img
-          src={desktopImage.fields.file.url}
-          alt={desktopImage.fields.description}
-        />
-      </div>
-      <div class="mobile-image">
-        <img
-          src={mobileImage.fields.file.url}
-          alt={mobileImage.fields.description}
-        />
-      </div>
-    </section>
-    <section class="black-box">
-      <div class="red-box">
-        <div class="font-style-2">
-          <p>NEXT TRIP</p>
-        </div>
-        <div class="font-style-1">
-          <h1>{nextTripLocationName}</h1>
-        </div>
-        <div class="font-style-3">
-          <p>{nextTripCoordinates}</p>
-        </div>
-        <div class="horizontal-line"></div>
-        <div class="font-style-2">
-          <p>ADVENTURE</p>
-        </div>
-        <div class="font-style-1 font-style-5">
-          <h1>{adventureName}</h1>
-        </div>
-        <div class="font-style-4">
-          <p>{adventureDescription}</p>
-        </div>
-        <div class="horizontal-line"></div>
-        <div class="font-style-2">
-          <p>DATES</p>
-        </div>
-        <div class="font-style-1 font-style-5">
-          <h1>{dates}</h1>
-        </div>
-        <div class="button-style">
-          <button>TELL ME MORE</button>
-        </div>
-      </div>
-      <div class="quote">
-        <h1>push your rush</h1>
-      </div>
-      <div class="desktop-quote">
-        <h1>push the rush</h1>
-      </div>
-      <div style="display:flex; justify-content: flex-end; ">
-        <div class="credit">
-          <p>{mobileImage.fields.description}</p>
-        </div>
-      </div>
-    </section>
-  </main>
+<article set:html={documentToHtmlString(entries.items[0].fields.test)}></article>
   
 </Layout>
 

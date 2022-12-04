@@ -1,4 +1,14 @@
 ---
+import Header from "../components/Header.svelte";
+import Footer from "../components/Footer.svelte";
+import { contentfulClient } from "../lib/contentful";
+
+const entries = await contentfulClient.getEntries<any>({
+  content_type: "adventureLocation",
+});
+
+const adventureLocation = entries.items[0].fields.adventureLocation;
+
 export interface Props {
   title: string;
 }
@@ -16,7 +26,9 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    <Header adventureLocation={adventureLocation} client:load />
     <slot />
+    <Footer />
   </body>
 </html>
 <style is:global>

@@ -1,198 +1,54 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.svelte";
-import Footer from "../components/Footer.svelte";
 
 import { contentfulClient } from "../lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-
+import { BLOCKS } from "@contentful/rich-text-types";
 
 const entries = await contentfulClient.getEntries<any>({
   content_type: "landingPage",
 });
 
-const desktopImageId = entries.items[0].fields.desktopImage.sys.id;
-const mobileImageId = entries.items[0].fields.mobileImage.sys.id;
-const assets = entries.includes.Asset;
-
-const desktopImage = assets.find(
-  (asset: any) => asset.sys.id === desktopImageId
-);
-const mobileImage = assets.find((asset: any) => asset.sys.id === mobileImageId);
-
-const adventureLocation = entries.items[0].fields.adventureLocation;
-const nextTripLocationName = entries.items[0].fields.nextTripLocationName;
-const nextTripCoordinates = entries.items[0].fields.nextTripCoordinates;
-const adventureName = entries.items[0].fields.adventureName;
-const adventureDescription = entries.items[0].fields.adventureDescription;
-const dates = entries.items[0].fields.dates;
+const options = {
+  renderNode: {
+    [BLOCKS.HEADING_6]: (node: any, next: any) => `<h6 style="color: #0349F7;
+    font-family: 'Brother', sans-serif;
+    text-transform: uppercase;
+    font-size: 18px;
+    line-height: 21.6px;
+    letter-spacing: 0.05em;">${next(node.content)}</h6>`,
+    [BLOCKS.PARAGRAPH]: (node: any, next: any) => `<h6 style="
+    font-family: 'Brother', sans-serif;
+    font-size: 18px;
+    line-height: 25px;
+    width: 34.20vw; 
+    max-width: 591px;
+    ">${next(node.content)}</h6>`,
+    [BLOCKS.TABLE]: (node: any, next: any) =>
+      `<div style="display: flex; width:100vw;"><table style="table-layout:fixed;">${next(
+        node.content
+      )}</table></div>`,
+    [BLOCKS.TABLE_CELL]: (node: any, next: any) =>
+      `<td style="">${next(
+        node.content
+      )}</td>`,
+      
+  },
+};
 ---
 
 <Layout title="Welcome to Astro.">
-  
-<article set:html={documentToHtmlString(entries.items[0].fields.test)}></article>
-  
+  <body>
+    <section
+      id="adventure"
+      set:html={documentToHtmlString(entries.items[0].fields.test, options)}
+    />
+  </body>
 </Layout>
 
 <style>
-  main {
-    background-color: black;
-  }
-  .desktop-image {
-    display: none;
-  }
-  .mobile-image img {
-    width: 100%;
-  }
-  .black-box {
-    height: 400px;
-    background-color: black;
-  }
-  .red-box {
-    background-color: #ff4800;
-    width: 84%;
-    position: absolute;
-    right: 0;
-    transform: translateY(-50%);
-    max-width: 303px;
-    display: grid;
-    row-gap: 8px;
-    padding-top: 25px;
-    padding-bottom: 28px;
-  }
-  .red-box div {
-    padding-left: 29px;
-    padding-right: 33px;
-  }
-
-  .font-style-1 {
-    font-size: 35px;
-    line-height: 36.05px;
-  }
-  .font-style-2 {
-    font-size: 12px;
-    line-height: 14.4px;
-    letter-spacing: 0.05em;
-  }
-  .font-style-3 {
-    font-size: 10px;
-    line-height: 12px;
-  }
-  .font-style-4 {
-    font-size: 12px;
-    line-height: 17px;
-  }
-  .horizontal-line {
-    border-bottom: 1px;
-    border-color: black;
-    border-style: solid;
-    margin-left: 29px;
-    margin-right: 33px;
-    margin-top: 7px;
-    margin-bottom: 7px;
-  }
-  .quote {
-    width: 65%;
-    max-width: 234.37px;
-    color: white;
-    padding-top: 248px;
-    padding-left: 78px;
-    font-size: 72px;
-    line-height: 45px;
-    transform: rotate(-3.51deg);
-  }
-  .quote h1 {
-    font-size: 72px;
-    line-height: 45px;
-  }
-  .credit {
-    color: white;
-    transform: translateY(-610px) translateX(14px) rotate(-90deg);
-    text-transform: uppercase;
-    font-size: 8px;
-    line-height: 9.6px;
-    letter-spacing: 0.05em;
-    right: 0;
-  }
-  .button-style {
-    width: fit-content;
-    padding-top: 7px;
-  }
-  @media (min-width: 1024px) {
-    .desktop-image {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    #adventure {
+        margin-left: 233px;
+        margin-right: 198px;
     }
-    .desktop-image img {
-      width: 100%;
-    }
-    .mobile-image {
-      display: none;
-    }
-    .black-box {
-    height: 955px;
-    background-color: black;
-  }
-
-    .red-box {
-      width: 32.23%;
-      max-width: 557px;
-      position: relative;
-      transform: translateX(282px) translateY(-30%);
-      row-gap: 20px;
-      padding-top: 51px;
-    padding-bottom: 64px;
-    }
-    .red-box div {
-      padding-left: 49px;
-      padding-right: 88px;
-    }
-    .horizontal-line {
-    margin-left: 49px;
-    margin-right: 88px;
-  }
-
-    .font-style-1 {
-      font-size: 75px;
-      line-height: 77.25px;
-    }
-    .font-style-2 {
-      font-size: 18px;
-      line-height: 21.6px;
-    }
-    .font-style-3 {
-      font-size: 18px;
-      line-height: 21.6px;
-    }
-    .font-style-4 {
-      font-size: 18px;
-      line-height: 25px;
-    }
-    .font-style-5 {
-      font-size: 50px;
-      font-size: 51.5px;
-    }
-    .button-style {
-    width: fit-content;
-    padding-top: 12px;
-  }
-  .quote {
-    display: none;
-  }
-
-  .desktop-quote {
-    width: 47.47%;
-    max-width: 820.31px;
-    padding-left: 620px;
-    transform: translateY(-70%) rotate(-3.51deg);
-  }
-  .desktop-quote h1 {
-    color: white;
-    font-size: 280px;
-    line-height: 180px;
-  }
-
-  }
 </style>

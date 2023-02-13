@@ -1,15 +1,254 @@
 ---
+import Layout from "../layouts/Layout.astro";
+
+import { contentfulClient } from "../lib/contentful";
+
+
+const entries = await contentfulClient.getEntries<any>({
+  content_type: "landingPage",
+});
+
+const desktopImageId = entries.items[0].fields.desktopImage.sys.id;
+const mobileImageId = entries.items[0].fields.mobileImage.sys.id;
+const assets = entries.includes.Asset;
+
+const desktopImage = assets.find(
+  (asset: any) => asset.sys.id === desktopImageId
+);
+const mobileImage = assets.find((asset: any) => asset.sys.id === mobileImageId);
+
+const nextTripLocationName = entries.items[0].fields.nextTripLocationName;
+const nextTripCoordinates = entries.items[0].fields.nextTripCoordinates;
+const adventureName = entries.items[0].fields.adventureName;
+const adventureDescription = entries.items[0].fields.adventureDescription;
+const dates = entries.items[0].fields.dates;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Welcome to Astro.">
+  
+
+  <main>
+    <div>
+      <div class="desktop-image">
+        <img
+          src={desktopImage.fields.file.url}
+          alt={desktopImage.fields.description}
+        />
+      </div>
+      <div class="mobile-image">
+        <img
+          src={mobileImage.fields.file.url}
+          alt={mobileImage.fields.description}
+        />
+      </div>
+    </div>
+    <div class="black-box">
+      <div class="red-box">
+        <div class="font-style-2">
+          <p>NEXT TRIP</p>
+        </div>
+        <div class="font-style-1">
+          <h1>{nextTripLocationName}</h1>
+        </div>
+        <div class="font-style-3">
+          <p>{nextTripCoordinates}</p>
+        </div>
+        <div class="horizontal-line"></div>
+        <div class="font-style-2">
+          <p>ADVENTURE</p>
+        </div>
+        <div class="font-style-1 font-style-5">
+          <h1>{adventureName}</h1>
+        </div>
+        <div class="font-style-4">
+          <p>{adventureDescription}</p>
+        </div>
+        <div class="horizontal-line"></div>
+        <div class="font-style-2">
+          <p>DATES</p>
+        </div>
+        <div class="font-style-1 font-style-5">
+          <h1>{dates}</h1>
+        </div>
+        <div class="button-style">
+          <button>TELL ME MORE</button>
+        </div>
+      </div>
+      <div class="quote">
+        <h1>push your rush</h1>
+      </div>
+      <div class="desktop-quote">
+        <h1>push the rush</h1>
+      </div>
+      <div style="display:flex; justify-content: flex-end; ">
+        <div class="credit">
+          <p>{mobileImage.fields.description}</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+</Layout>
+
+<style>
+  main {
+    background-color: black;
+  }
+  .desktop-image {
+    display: none;
+  }
+  .mobile-image img {
+    width: 100%;
+  }
+  .black-box {
+    height: 400px;
+    background-color: black;
+  }
+  .red-box {
+    background-color: #ff4800;
+    width: 84%;
+    position: absolute;
+    right: 0;
+    transform: translateY(-50%);
+    max-width: 303px;
+    display: grid;
+    row-gap: 8px;
+    padding-top: 25px;
+    padding-bottom: 28px;
+  }
+  .red-box div {
+    padding-left: 29px;
+    padding-right: 33px;
+  }
+
+  .font-style-1 {
+    font-size: 35px;
+    line-height: 36.05px;
+  }
+  .font-style-2 {
+    font-size: 12px;
+    line-height: 14.4px;
+    letter-spacing: 0.05em;
+  }
+  .font-style-3 {
+    font-size: 10px;
+    line-height: 12px;
+  }
+  .font-style-4 {
+    font-size: 12px;
+    line-height: 17px;
+  }
+  .horizontal-line {
+    border-bottom: 1px;
+    border-color: black;
+    border-style: solid;
+    margin-left: 29px;
+    margin-right: 33px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+  }
+  .quote {
+    width: 65%;
+    max-width: 234.37px;
+    color: white;
+    padding-top: 248px;
+    padding-left: 78px;
+    font-size: 72px;
+    line-height: 45px;
+    transform: rotate(-3.51deg);
+  }
+  .quote h1 {
+    font-size: 72px;
+    line-height: 45px;
+  }
+  .credit {
+    color: white;
+    transform: translateY(-610px) translateX(14px) rotate(-90deg);
+    text-transform: uppercase;
+    font-size: 8px;
+    line-height: 9.6px;
+    letter-spacing: 0.05em;
+    right: 0;
+  }
+  .button-style {
+    width: fit-content;
+    padding-top: 7px;
+  }
+  @media (min-width: 1024px) {
+    .desktop-image {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .desktop-image img {
+      width: 100%;
+    }
+    .mobile-image {
+      display: none;
+    }
+    .black-box {
+    height: 955px;
+    background-color: black;
+  }
+
+    .red-box {
+      width: 32.23%;
+      max-width: 557px;
+      position: relative;
+      transform: translateX(282px) translateY(-30%);
+      row-gap: 20px;
+      padding-top: 51px;
+    padding-bottom: 64px;
+    }
+    .red-box div {
+      padding-left: 49px;
+      padding-right: 88px;
+    }
+    .horizontal-line {
+    margin-left: 49px;
+    margin-right: 88px;
+  }
+
+    .font-style-1 {
+      font-size: 75px;
+      line-height: 77.25px;
+    }
+    .font-style-2 {
+      font-size: 18px;
+      line-height: 21.6px;
+    }
+    .font-style-3 {
+      font-size: 18px;
+      line-height: 21.6px;
+    }
+    .font-style-4 {
+      font-size: 18px;
+      line-height: 25px;
+    }
+    .font-style-5 {
+      font-size: 50px;
+      font-size: 51.5px;
+    }
+    .button-style {
+    width: fit-content;
+    padding-top: 12px;
+  }
+  .quote {
+    display: none;
+  }
+
+  .desktop-quote {
+    width: 47.47%;
+    max-width: 820.31px;
+    padding-left: 620px;
+    transform: translateY(-70%) rotate(-3.51deg);
+  }
+  .desktop-quote h1 {
+    color: white;
+    font-size: 280px;
+    line-height: 180px;
+  }
+
+  }
+</style>

@@ -1,0 +1,256 @@
+---
+//types
+import type { EntryParams } from "../types/introduction";
+import type { AdventureColumnParams } from "../types/introduction";
+//
+
+import Layout from "../layouts/Layout.astro";
+
+import OneColumnIntro from "../components/adventure/OneColumnIntro.svelte";
+import ThreeColumnIntro from "../components/adventure/ThreeColumnIntro.svelte";
+import DesktopImage from "../components/adventure/DesktopImage.svelte";
+import MobileImage from "../components/adventure/MobileImage.svelte";
+import Prerequisites from "../components/adventure/Prerequisites.svelte";
+
+import { contentfulClient } from "../lib/contentful";
+import ThreeColumnAdventure from "../components/adventure/ThreeColumnAdventure.svelte";
+
+const contentfulData = await contentfulClient.getEntries<any>({
+  content_type: "landingPage",
+});
+
+const fields = contentfulData.items[0].fields;
+const entries = contentfulData.includes.Entry;
+const assets = contentfulData.includes.Asset;
+const introduction = fields.introduction;
+const adventure = fields.adventure;
+
+const allEntries = await contentfulClient.getEntries<any>();
+const allItems = allEntries.items;
+
+const introductionGrid: EntryParams[] = introduction.map((item: any) => {
+  // get id
+  let id = item.sys.id;
+  // find corresponding entry for id
+  let entry = entries.find((entry: any) => entry.sys.id === id);
+  if (entry.fields.data) {
+    // get each entry from this entry and save its heading (optional) and body
+    if (Array.isArray(entry.fields.data)) {
+      let type = "columns";
+      let data = entry.fields.data.map((item: any) => {
+        let subEntryId = item.sys.id;
+        let subEntry = allItems.find((item: any) => item.sys.id === subEntryId);
+        if (subEntry) {
+          if (subEntry.fields.heading) {
+            return {
+              type: "text",
+              heading: subEntry.fields.heading,
+              body: subEntry.fields.body,
+            };
+          } else {
+            return {
+              type: "text",
+              body: subEntry.fields.body,
+            };
+          }
+        }
+      });
+      return {
+        type: type,
+        numberOfCols: data.length,
+        nestedBody: data,
+      };
+    }
+    // if there is only one entry, save its heading (optional) and body
+    else {
+      let subEntryId = entry.fields.data.sys.id;
+      let subEntry = allItems.find((item: any) => item.sys.id === subEntryId);
+      if (subEntry) {
+        return {
+          type: "text",
+          heading: subEntry.fields.heading,
+          body: subEntry.fields.body,
+        };
+      }
+    }
+  }
+
+  // if there is an image, get the image id and find the corresponding asset
+  if (entry.fields.image) {
+    let imageId = entry.fields.image.sys.id;
+    let isDesktop =
+      entry.sys.contentType.sys.id === "desktopImageIntroduction"
+        ? true
+        : false;
+    let hasMargin = isDesktop ? entry.fields.hasMarginOnTheLeft : false;
+    let image = assets.find((asset: any) => asset.sys.id === imageId);
+    return {
+      type: "image",
+      imageSrc: image.fields.file.url,
+      imageAlt: image.fields.description,
+      isDesktopImage: isDesktop,
+      imageHasMargin: hasMargin,
+    };
+  }
+  if (entry.fields.name === "Prerequisites") {
+    let mobileImageId = entry.fields.mobileImage.sys.id;
+    let mobileImage = assets.find(
+      (asset: any) => asset.sys.id === mobileImageId
+    );
+    let desktopImageId = entry.fields.desktopImage.sys.id;
+    let desktopImage = assets.find(
+      (asset: any) => asset.sys.id === desktopImageId
+    );
+    let prerequisites = entry.fields.prerequisites.content.map((item: any) => {
+      return item.content[0].value;
+    });
+    return {
+      type: "prerequisites",
+      mobileImageSrc: mobileImage.fields.file.url,
+      mobileImageAlt: mobileImage.fields.description,
+      desktopImageSrc: desktopImage.fields.file.url,
+      desktopImageAlt: desktopImage.fields.description,
+      prerequisites: prerequisites,
+    };
+  }
+});
+
+const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
+  // get id
+  let isLastRow = item === adventure[adventure.length - 1] ? true : false;
+  let id = item.sys.id;
+  // find corresponding entry for id
+  let entry = entries.find((entry: any) => entry.sys.id === id);
+  let data: any = [];
+  entry.fields.data.forEach((item: any, index: number) => {
+    let subEntryId = item.sys.id;
+    let subEntry = allItems.find((item: any) => item.sys.id === subEntryId);
+    let day = subEntry?.fields.day ? subEntry.fields.day : null;
+    let date = subEntry?.fields.date ? subEntry.fields.date : null;
+
+    let noBarLeft = subEntry?.fields.noBarLeft
+      ? subEntry.fields.noBarLeft
+      : null;
+    
+    let optionalField = subEntry?.fields.optionalField
+      ? subEntry.fields.optionalField
+      : null;
+
+    let noDayDateOptional = false;
+    let noBorderBottom = false;
+    if (!day && !date && !optionalField) {
+      noDayDateOptional = true;
+      data[index - 1].noBorderBottom = true;
+    }
+    let timeDescription = subEntry?.fields.timeDescription.map((item: any) => {
+      let time = item?.fields.time;
+      let description = item.fields.description;
+      return {
+        time: time,
+        description: description,
+      };
+    });
+
+    let noBarBottomDesktop = false;
+    let noBarBottomMobile = false;
+
+    if (isLastRow && index === entry.fields.data.length - 2){
+      noBarBottomDesktop = true;
+    }
+    if (isLastRow && index === entry.fields.data.length - 1){
+      noBarBottomDesktop = true;
+      noBarBottomMobile = true;
+    }
+
+    data.push({
+      day: day,
+      date: date,
+      optionalField: optionalField,
+      timeDescription: timeDescription,
+      noBarLeft: noBarLeft,
+      noBarBottomDesktop: noBarBottomDesktop,
+      noBarBottomMobile:noBarBottomMobile, 
+      noDayDateOptional: noDayDateOptional,
+      noBorderBottom: noBorderBottom,
+    });
+  });
+  return data;
+});
+---
+
+<Layout title="Welcome to Astro.">
+  <body>
+    {
+      introductionGrid.map((item: EntryParams) => {
+        if (item.type === "text") {
+          return (
+            <div>
+              <OneColumnIntro data={item} />
+            </div>
+          );
+        }
+        if (item.type === "columns") {
+          return (
+            <div>
+              <ThreeColumnIntro data={item} />
+            </div>
+          );
+        }
+        if (item.type === "image") {
+          if (item.isDesktopImage) {
+            return (
+              <div>
+                <DesktopImage data={item} />
+              </div>
+            );
+          } else {
+            return (
+              <div>
+                <MobileImage data={item} />
+              </div>
+            );
+          }
+        } else {
+          return (
+            <div>
+              <Prerequisites data={item} client:load />
+            </div>
+          );
+        }
+      })
+    }
+    <div class="the-plan">
+      <h2>THE PLAN</h2>
+    </div>
+    {
+      adventureGrid.map((item: AdventureColumnParams[]) => {
+        return (
+          <div>
+            <ThreeColumnAdventure data={item}  client:load />
+          </div>
+        );
+      })
+    }
+  <button class="red">
+    YUP I’M IN
+  </button>
+  </body>
+</Layout>
+
+<style>
+  #adventure {
+    margin-left: 233px;
+    margin-right: 198px;
+  }
+  .the-plan {
+    margin-left: 15vw;
+  }
+  .red {
+    background-color: #FF4800;
+  }
+  @media (min-width: 1024px) {
+    .the-plan {
+      margin-left: 13vw;
+    }
+  }
+</style>

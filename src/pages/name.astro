@@ -2,6 +2,50 @@
 ---
 
 <script>
+const form = document.querySelector("#contactForm");
+
+form?.addEventListener("submit", event => {
+  event.preventDefault();
+
+  const formData = new FormData(form as any);
+  const name = formData.get("Name");
+  const email = formData.get("EmailAddress");
+  const phone = formData.get("Phone");
+  const medicalConditions = formData.get("MedicalConditions");
+
+  const data = {
+  records: [
+    {
+      fields: {
+        "Name": name,
+        "Email Address": email,
+        "Phone": phone,
+        "Medical Conditions": medicalConditions
+      }
+    }
+  ]
+}
+
+  fetch("https://zg418763sf.execute-api.ap-south-1.amazonaws.com/sign-up", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+});
 
 </script>
 <form id="contactForm">

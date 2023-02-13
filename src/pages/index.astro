@@ -1,7 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
+import Header from "../components/Header.svelte";
 import { contentfulClient } from "../lib/contentful";
+
+
+const adventureEntries = await contentfulClient.getEntries<any>({
+  content_type: "adventureLocation",
+});
+
+const adventureLocationSelected = adventureEntries.items[0].fields.adventureLocation;
 
 
 const entries = await contentfulClient.getEntries<any>({
@@ -25,7 +32,7 @@ const dates = entries.items[0].fields.dates;
 ---
 
 <Layout title="Welcome to Astro.">
-  
+  <Header adventureLocation={adventureLocationSelected} darkMode={true} client:load />
 
   <main>
     <div>

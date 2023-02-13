@@ -1,5 +1,24 @@
 <script lang="ts">
   export let adventureLocation: string;
+  
+  export let darkMode: boolean = false;
+  export let selectedField: string = "";
+  
+  let adventureSelected:boolean = false;
+  let putNameSelected:boolean = false;
+  let hitUsUpSelected:boolean = false;
+  let faqsSelected:boolean = false;
+  
+  if (selectedField === "adventure") {
+    adventureSelected = true;
+  } else if (selectedField === "putName") {
+    putNameSelected = true;
+  } else if (selectedField === "hitUsUp") {
+    hitUsUpSelected = true;
+  } else if (selectedField === "faqs") {
+    faqsSelected = true;
+  }
+
   import headerImage from "../images/header/breakneck.svg";
   import burgerClosed from "../images/header/burger_closed.svg";
   import burgerOpen from "../images/header/burger_open.svg";
@@ -15,7 +34,8 @@
     <img
       src={burgerClosed}
       alt="Burger Menu Closed"
-      style={isBurgerOpen ? "display:none;" : "display:block;"}
+      style={isBurgerOpen ? "display:none;" : "display:block;"} 
+      class:light-mode-svg={!darkMode}
       on:click={toggleMenu}
       on:keydown={toggleMenu}
     />
@@ -23,16 +43,19 @@
       src={burgerOpen}
       alt="Burger Menu Open"
       style={isBurgerOpen ? "display:block;" : "display:none;"}
+      class:light-mode-svg={!darkMode}
       on:click={toggleMenu}
       on:keydown={toggleMenu}
     />
   </div>
-  <img src={headerImage} alt="Breakneck Logo" class="header-image" />
-  <ul>
-    <li>{adventureLocation}</li>
-    <li>PUT YOUR NAME DOWN</li>
-    <li>HIT US UP</li>
-    <li>FAQs</li>
+  <a href="/">
+  <img src={headerImage} alt="Breakneck Logo" class="header-image" class:light-mode-svg={!darkMode}/>
+</a>
+  <ul class:dark-mode={darkMode}>
+    <a href="/adventure"><li class:is-selected={adventureSelected}>{adventureLocation}</li></a> 
+   <a href="/put-your-name-down"><li class:is-selected={putNameSelected}>PUT YOUR NAME DOWN</li></a>
+    <li class:is-selected={hitUsUpSelected}>HIT US UP</li>
+    <li class:is-selected={faqsSelected}>FAQs</li>
   </ul>
 </header>
 <ul class="mobile-menu" style={isBurgerOpen? "display:block":"display:none"}>
@@ -54,7 +77,11 @@
     right: 0;
     display: flex;
     font-family: "Thunderhouse", Fallback, sans-serif;
-    color: #ffffff;
+    color: #000;
+  }
+
+  .light-mode-svg {
+    filter: invert(100%);
   }
 
   .header-image {
@@ -117,6 +144,20 @@
       max-width: 1005px;
       width: 100%;
     }
+
+    .is-selected {
+      color: #0349F7;
+    }
+    .dark-mode {
+      color: #fff;
+    }
+
+    .dark-mode .is-selected {
+      color: #000;
+    }
+
+
+
     .mobile-menu {
       display: none;
     }

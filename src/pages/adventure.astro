@@ -5,6 +5,8 @@ import type { AdventureColumnParams } from "../types/introduction";
 //
 
 import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.svelte";
+
 
 import OneColumnIntro from "../components/adventure/OneColumnIntro.svelte";
 import ThreeColumnIntro from "../components/adventure/ThreeColumnIntro.svelte";
@@ -16,8 +18,15 @@ import { contentfulClient } from "../lib/contentful";
 import ThreeColumnAdventure from "../components/adventure/ThreeColumnAdventure.svelte";
 
 const contentfulData = await contentfulClient.getEntries<any>({
-  content_type: "landingPage",
+  content_type: "adventure",
 });
+
+const adventureEntries = await contentfulClient.getEntries<any>({
+  content_type: "adventureLocation",
+});
+
+const adventureLocationSelected = adventureEntries.items[0].fields.adventureLocation;
+
 
 const fields = contentfulData.items[0].fields;
 const entries = contentfulData.includes.Entry;
@@ -27,6 +36,17 @@ const adventure = fields.adventure;
 
 const allEntries = await contentfulClient.getEntries<any>();
 const allItems = allEntries.items;
+
+const desktopImageSrc = assets.find(
+  (entry: any) => entry.sys.id === fields.desktopImage.sys.id
+).fields.file.url;
+const mobileImageSrc = assets.find(
+  (entry: any) => entry.sys.id === fields.mobileImage.sys.id
+).fields.file.url;
+
+const adventureLocation = fields.adventureLocation;
+const adventureDescription = fields.adventureDescription;
+const adventureDates = fields.adventureDates;
 
 const introductionGrid: EntryParams[] = introduction.map((item: any) => {
   // get id
@@ -131,7 +151,7 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
     let noBarLeft = subEntry?.fields.noBarLeft
       ? subEntry.fields.noBarLeft
       : null;
-    
+
     let optionalField = subEntry?.fields.optionalField
       ? subEntry.fields.optionalField
       : null;
@@ -154,10 +174,14 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
     let noBarBottomDesktop = false;
     let noBarBottomMobile = false;
 
-    if (isLastRow && index === entry.fields.data.length - 2){
+    if (isLastRow && index === entry.fields.data.length - 3) {
       noBarBottomDesktop = true;
     }
-    if (isLastRow && index === entry.fields.data.length - 1){
+
+    if (isLastRow && index === entry.fields.data.length - 2) {
+      noBarBottomDesktop = true;
+    }
+    if (isLastRow && index === entry.fields.data.length - 1) {
       noBarBottomDesktop = true;
       noBarBottomMobile = true;
     }
@@ -169,7 +193,7 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
       timeDescription: timeDescription,
       noBarLeft: noBarLeft,
       noBarBottomDesktop: noBarBottomDesktop,
-      noBarBottomMobile:noBarBottomMobile, 
+      noBarBottomMobile: noBarBottomMobile,
       noDayDateOptional: noDayDateOptional,
       noBorderBottom: noBorderBottom,
     });
@@ -179,46 +203,62 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
 ---
 
 <Layout title="Welcome to Astro.">
+  <Header adventureLocation={adventureLocationSelected} selectedField={"adventure"} darkMode={true} client:load />
   <body>
-    {
-      introductionGrid.map((item: EntryParams) => {
-        if (item.type === "text") {
-          return (
-            <div>
-              <OneColumnIntro data={item} />
-            </div>
-          );
-        }
-        if (item.type === "columns") {
-          return (
-            <div>
-              <ThreeColumnIntro data={item} />
-            </div>
-          );
-        }
-        if (item.type === "image") {
-          if (item.isDesktopImage) {
+    <div class="desktop-image">
+      <img src={desktopImageSrc} height="1123px" width="100%" />
+      <h1>{adventureLocation}</h1>
+    </div>
+    <div class="mobile-image">
+      <img src={mobileImageSrc} height="100%" width="100%" />
+      <h1>{adventureLocation}</h1>
+    </div>
+    <section class="adventure-details">
+      <h1>{adventureDescription}</h1>
+      <h3>{adventureDates}</h3>
+    </section>
+    <!-- {<Adventure data={fields} client:load/>} -->
+    <div class="introduction">
+      {
+        introductionGrid.map((item: EntryParams) => {
+          if (item.type === "text") {
             return (
               <div>
-                <DesktopImage data={item} />
-              </div>
-            );
-          } else {
-            return (
-              <div>
-                <MobileImage data={item} />
+                <OneColumnIntro data={item} />
               </div>
             );
           }
-        } else {
-          return (
-            <div>
-              <Prerequisites data={item} client:load />
-            </div>
-          );
-        }
-      })
-    }
+          if (item.type === "columns") {
+            return (
+              <div>
+                <ThreeColumnIntro data={item} />
+              </div>
+            );
+          }
+          if (item.type === "image") {
+            if (item.isDesktopImage) {
+              return (
+                <div class="desktop-image">
+                  <DesktopImage data={item} />
+                </div>
+              );
+            } else {
+              return (
+                <div class="mobile-image">
+                  <MobileImage data={item} />
+                </div>
+              );
+            }
+          } else {
+            return (
+              <div>
+                <Prerequisites data={item} client:load />
+              </div>
+            );
+          }
+        })
+      }
+    </div>
     <div class="the-plan">
       <h2>THE PLAN</h2>
     </div>
@@ -226,18 +266,54 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
       adventureGrid.map((item: AdventureColumnParams[]) => {
         return (
           <div>
-            <ThreeColumnAdventure data={item}  client:load />
+            <ThreeColumnAdventure data={item} client:load />
           </div>
         );
       })
     }
-  <button class="red">
-    YUP I’M IN
-  </button>
+    <div class="sign-up">
+      <a href="/put-your-name-down">
+        <button class="red"> YUP I’M IN</button>
+      </a>
+    </div>
   </body>
 </Layout>
 
 <style>
+  .desktop-image {
+    display: none;
+  }
+
+  .mobile-image h1 {
+    position: absolute;
+    width: 315.88px;
+    height: 47px;
+    left: -6px;
+    top: 571.36px;
+    font-size: 77px;
+    line-height: 47px;
+    color: #ffffff;
+    transform: rotate(-3.51deg);
+  }
+
+  .adventure-details {
+    display: grid;
+    row-gap: 15px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .adventure-details h1 {
+    font-size: 50px;
+    line-height: 51px;
+  }
+
+  .introduction {
+    display: grid;
+    row-gap: 30px;
+    padding-bottom: 30px;
+  }
+
   #adventure {
     margin-left: 233px;
     margin-right: 198px;
@@ -246,11 +322,66 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
     margin-left: 15vw;
   }
   .red {
-    background-color: #FF4800;
+    background-color: #ff4800;
   }
+
+  .sign-up {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+  }
+
   @media (min-width: 1024px) {
+    .mobile-image {
+      display: none;
+    }
+
+    .adventure-details {
+      padding-top: 87px;
+      padding-bottom: 60px;
+    }
+
+    .adventure-details h1 {
+      font-size: 80px;
+      line-height: 82px;
+    }
+    .adventure-details h3 {
+      font-size: 60px;
+      line-height: 62px;
+    }
+
+    .introduction {
+      row-gap: 60px;
+      padding-bottom: 60px;
+    }
+    .desktop-image {
+      display: block;
+    }
+    .desktop-image h1 {
+      position: absolute;
+      width: 1241.41px;
+      height: 180px;
+      left: -41px;
+      top: 831.56px;
+      font-size: 280px;
+      line-height: 180px;
+
+      color: #ffffff;
+
+      transform: rotate(-7.01deg);
+    }
     .the-plan {
       margin-left: 13vw;
+    }
+    .the-plan h2 {
+      padding-bottom: 0px;
+      line-height: 0px;
+    }
+    .sign-up {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      margin-bottom: 100px;
     }
   }
 </style>

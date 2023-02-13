@@ -1,10 +1,7 @@
 <script lang="ts">
   import type { AdventureColumnParams } from "../../types/introduction";
   export let data: AdventureColumnParams[];
-  import { onMount } from "svelte";
-  onMount(() => {
-    console.log(data);
-  });
+  
 </script>
 
 <section>
@@ -121,6 +118,7 @@
     h4 {
       font-size: 40px;
     }
+    
 
     .day {
       font-size: 40px;
@@ -148,8 +146,8 @@
       display: block;
       position: absolute;
       left: 0;
-      top: 10%;
-      bottom: 10%;
+      top: 7.5%;
+      bottom: 7.5%;
       border-right: 1px solid #000;
     }
     .adventure {
@@ -170,6 +168,7 @@
 
     .adventure-heading {
       height: 95px;
+      margin-top: 30px;
     }
     .desktop-padding {
       padding-left: 43px;

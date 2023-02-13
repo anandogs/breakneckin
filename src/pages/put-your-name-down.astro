@@ -1,0 +1,36 @@
+---
+import PutNameForm from "../components/PutNameForm.svelte";
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.svelte";
+import { contentfulClient } from "../lib/contentful";
+
+const adventureEntries = await contentfulClient.getEntries<any>({
+  content_type: "adventureLocation",
+});
+
+const adventureLocationSelected = adventureEntries.items[0].fields.adventureLocation;
+
+
+const contentfulData = await contentfulClient.getEntries<any>({
+  content_type: "adventureCost",
+});
+const cost = contentfulData.items[0].fields.amount;
+---
+
+<Layout title="Put your name down">
+  <Header adventureLocation={adventureLocationSelected} selectedField={"putName"} client:load />
+  <main>
+    <PutNameForm cost={cost} client:load/>
+  </main>
+</Layout>
+<style>
+  main {
+    margin-top: 128px;
+  }
+  @media (min-width: 1024px) {
+    main {
+      margin-top: 317px;
+    }
+  }
+</style>
+

@@ -29,10 +29,10 @@
   }
 
   .prerequisites {
-    padding-top: 100px;
+    /* padding-top: 30px; */
     position: relative;
     overflow: hidden;
-    padding-bottom: 300px;
+    padding-bottom: 320px;
   }
   .prerequisites-container {
     display: block;
@@ -73,7 +73,6 @@ line-height: 15px;
   @media (min-width: 1024px) {
     .prerequisites {
       padding-top: 100px;
-      position: relative;
       padding-bottom: 0px;
     }
     .desktop-image {

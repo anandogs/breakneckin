@@ -1,0 +1,253 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+import logo from "../images/header/breakneck.svg";
+import closeButton from "../images/header/burger_open.svg";
+
+import CheckFields from "../components/CheckFields.svelte";
+
+import { contentfulClient } from "../lib/contentful";
+
+const success = await contentfulClient.getEntries<any>({
+  content_type: "success",
+});
+
+const allEntries = await contentfulClient.getEntries<any>();
+
+const desktopImageId = success.items[0].fields.desktopImage.sys.id;
+const mobileImageId = success.items[0].fields.mobileImage.sys.id;
+
+const desktopImage = allEntries.includes.Asset.find(
+  (asset: any) => asset.sys.id === desktopImageId
+);
+
+const mobileImage = allEntries.includes.Asset.find(
+  (asset: any) => asset.sys.id === mobileImageId
+);
+
+const successHeading = success.items[0].fields.successHeading;
+
+const contentfulData = await contentfulClient.getEntries<any>({
+  content_type: "hitUsUp",
+});
+
+const whatsapp = contentfulData.items[0].fields.whatsapp
+  ? contentfulData.items[0].fields.whatsapp
+  : null;
+const email = contentfulData.items[0].fields.email
+  ? contentfulData.items[0].fields.email
+  : null;
+const call = contentfulData.items[0].fields.call
+  ? contentfulData.items[0].fields.call
+  : null;
+---
+
+<Layout title="Success">
+  <main>
+    <a href="/">
+      <img class="logo" src={logo} alt="Breakneck Logo" />
+    </a>
+    <a href="/">
+      <img class="close-button" src={closeButton} alt="Close Button" />
+    </a>
+    <img
+      class="mobile-image"
+      src={mobileImage.fields.file.url}
+      alt={mobileImage.fields.description}
+      width="100%"
+    />
+    <img
+      class="desktop-image"
+      src={desktopImage.fields.file.url}
+      alt={desktopImage.fields.description}
+      width="100%"
+    />
+    <h1 class="huzzah">huzzah!</h1>
+
+    <section>
+      <h1 class="success-heading">{successHeading}</h1>
+      <div class="success-content">
+        <p>THANKS FOR SIGNING UP. WE’LL GET BACK TO YOU FOR NEXT STEPS.</p>
+        <p>SOMETHING ON YOUR MIND? REACH US THROUGH CHANNELS BELOW.</p>
+      </div>
+      <div class="social">
+        <a
+          href={`https://wa.me/${whatsapp}`}
+          style={whatsapp ? "display:flex" : "display:none"}
+          class="whatsapp"
+        >
+          <p class="text">Whatsapp</p>
+        </a>
+        <a
+          href={`tel:${call}`}
+          style={call ? "display:flex" : "display:none"}
+          class="call"
+        >
+          <p class="text">Call</p>
+        </a>
+        <a
+          href={`mailto:${email}`}
+          style={email ? "display:flex" : "display:none"}
+          class="email"
+        >
+          <p class="text">Email</p>
+        </a>
+      </div>
+    </section>
+    <CheckFields data={success.items[0].fields} client:load />
+  </main>
+</Layout>
+<style>
+  .desktop-image {
+    display: none;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 54px;
+    right: 31.47px;
+  }
+
+  .logo {
+    position: absolute;
+    width: 103px;
+    height: 35.52px;
+    left: 84px;
+    top: 35px;
+  }
+
+  .huzzah {
+    position: absolute;
+    width: 315.88px;
+    height: 50px;
+    left: 21px;
+    top: 171.36px;
+    font-size: 77px;
+    line-height: 50px;
+    text-align: center;
+    color: #ffffff;
+    transform: rotate(-3.51deg);
+  }
+
+  .success-heading {
+    margin-top: 60px;
+    margin-bottom: 30px;
+    font-size: 50px;
+    line-height: 51px;
+    color: #000000;
+  }
+
+  .text {
+    text-transform: uppercase;
+    font-family: "Brother";
+    font-size: 9px;
+    line-height: 11px;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+  }
+
+  .social {
+    display: flex;
+    column-gap: 7px;
+    margin-top: 46px;
+    margin-bottom: 40px;
+  }
+
+  .whatsapp {
+    background-color: #ff4800;
+    width: 85px;
+    height: 27px;
+    justify-content: center;
+    align-items: center;
+  }
+  .call {
+    background: #00d4c5;
+    width: 74px;
+    height: 27px;
+    justify-content: center;
+    align-items: center;
+  }
+  .email {
+    background: #0349f7;
+    width: 74px;
+    height: 27px;
+    justify-content: center;
+    align-items: center;
+  }
+  .success-content {
+    display: grid;
+    row-gap: 30px;
+    width: 217px;
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-image {
+      display: none;
+    }
+
+    .close-button {
+        width: 14.89px;
+height: 15.06px;
+right: 204.36px;
+top: 158.59px;
+  }
+
+  .logo {
+    width: 175px;
+height: 56.36px;
+left: 233px;
+top: 140px;
+  }
+
+    .desktop-image {
+      display: block;
+    }
+
+    .huzzah {
+      width: 1241.41px;
+      height: 190px;
+      left: 225.78px;
+      top: 702px;
+      font-size: 280px;
+      line-height: 190px;
+      color: #ffffff;
+      transform: rotate(4.28deg);
+    }
+    .success-heading {
+    margin-top: 100px;
+    margin-bottom: 60px;
+font-size: 110px;
+line-height: 113px;
+  }
+
+    .social {
+      column-gap: 22px;
+      margin-top: 100px;
+      margin-bottom: 60px;
+    }
+    main section {
+      width: 720px;
+    }
+    .success-content {
+ 
+    row-gap: 60px;
+    width: 587px;
+  }
+    .whatsapp {
+      width: 186px;
+      height: 46px;
+    }
+    .call {
+      width: 186px;
+      height: 46px;
+    }
+    .email {
+      width: 186px;
+      height: 46px;
+    }
+    .text {
+      font-size: 14px;
+      line-height: 17px;
+    }
+  }
+</style>

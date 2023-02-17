@@ -1,0 +1,93 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.svelte";
+
+import { contentfulClient } from "../lib/contentful";
+
+const adventureEntries = await contentfulClient.getEntries<any>({
+  content_type: "adventureLocation",
+});
+
+const adventureLocationSelected =
+  adventureEntries.items[0].fields.adventureLocation;
+
+const contentfulData = await contentfulClient.getEntries<any>({
+  content_type: "faQs",
+});
+const faqs = contentfulData.items[0].fields.questionsAndAnswers;
+---
+
+<Layout title="FAQ's">
+  <Header
+    adventureLocation={adventureLocationSelected}
+    selectedField={"faqs"}
+    client:load
+  />
+  <main>
+    <section>
+      <h1>FAQs</h1>
+      {
+        faqs.map((faq: any) => {
+          return (
+            <div class="faqs">
+              <h2>{faq.fields.heading}</h2>
+              <div class="para-styling">
+                {faq.fields.body.content.map((content: any) => {
+                  return <p>{content.content[0].value}</p>
+                })}
+            </div>
+            </div>
+          );
+        })
+      }
+    </section>
+  </main>
+</Layout>
+<style>
+  main {
+    margin-top: 128px;
+    margin-bottom: 50px;
+  }
+  main h1 {
+    font-size: 30px;
+    line-height: 31px;
+    margin-left: 33px;
+    margin-bottom: 30px;
+    color: #0349f7;
+  }
+  main h2 {
+    padding: 0px;
+    margin: 0px;
+  }
+  .faqs {
+    display: grid;
+    row-gap: 10px;
+    margin-bottom: 30px;
+    width: 218px;
+  }
+  .para-styling {
+    display: grid;
+    row-gap: 1 0px;
+  }
+  @media (min-width: 1024px) {
+    
+    main {
+      margin-top: 318px;
+      margin-bottom: 100px;
+    }
+    
+    main h1 {
+      display: none;
+    }
+    .faqs {
+    row-gap: 15px;
+    margin-bottom: 60px;
+    width: 591px;
+  }
+  .para-styling {
+    display: grid;
+    row-gap: 15px;
+  }
+
+  }
+</style>

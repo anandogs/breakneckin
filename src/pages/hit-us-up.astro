@@ -1,0 +1,202 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.svelte";
+
+import { contentfulClient } from "../lib/contentful";
+
+const adventureEntries = await contentfulClient.getEntries<any>({
+  content_type: "adventureLocation",
+});
+
+const adventureLocationSelected =
+  adventureEntries.items[0].fields.adventureLocation;
+
+const contentfulData = await contentfulClient.getEntries<any>({
+  content_type: "hitUsUp",
+});
+
+const allEntries = await contentfulClient.getEntries<any>();
+
+const whatsapp = contentfulData.items[0].fields.whatsapp
+  ? contentfulData.items[0].fields.whatsapp
+  : null;
+const email = contentfulData.items[0].fields.email
+  ? contentfulData.items[0].fields.email
+  : null;
+const call = contentfulData.items[0].fields.call
+  ? contentfulData.items[0].fields.call
+  : null;
+
+const content = contentfulData.items[0].fields.content.content;
+const desktopImageId = contentfulData.items[0].fields.desktopImage.sys.id;
+const mobileImageId = contentfulData.items[0].fields.mobileImage.sys.id;
+
+const desktopImage = allEntries.includes.Asset.find(
+  (asset: any) => asset.sys.id === desktopImageId
+);
+const mobileImage = allEntries.includes.Asset.find(
+  (asset: any) => asset.sys.id === mobileImageId
+);
+---
+
+<Layout title="Put your name down">
+  <Header
+    adventureLocation={adventureLocationSelected}
+    selectedField={"hitUsUp"}
+    client:load
+    darkMode={true}
+  />
+  <main>
+    <img
+      class="mobile-image"
+      src={mobileImage.fields.file.url}
+      alt={mobileImage.fields.file.description}
+      width="100%"
+    />
+    <img
+      class="desktop-image"
+      src={desktopImage.fields.file.url}
+      alt={desktopImage.fields.file.description}
+      width="100%"
+    />
+    <h1>breakneck bts</h1>
+    <section>
+      <div class="social">
+        <a
+          href={`https://wa.me/${whatsapp}`}
+          style={whatsapp ? "display:flex" : "display:none"}
+          class="whatsapp"
+        >
+          <p class="text">Whatsapp</p>
+        </a>
+        <a
+          href={`tel:${call}`}
+          style={call ? "display:flex" : "display:none"}
+          class="call"
+        >
+          <p class="text">Call</p>
+        </a>
+        <a
+          href={`mailto:${email}`}
+          style={email ? "display:flex" : "display:none"}
+          class="email"
+        >
+          <p class="text">Email</p>
+        </a>
+      </div>
+      <div class="content">
+        {
+          content.map((entry: any) => {
+            return <p>{entry.content[0].value}</p>;
+          })
+        }
+      </div>
+    </section>
+  </main>
+</Layout>
+<style>
+  main h1 {
+    position: absolute;
+    width: 315.88px;
+    height: 100px;
+    left: -6px;
+    top: 217.36px;
+    font-size: 77px;
+    line-height: 50px;
+    color: #ffffff;
+    transform: rotate(-3.51deg);
+  }
+  .desktop-image {
+    display: none;
+  }
+  .text {
+    text-transform: uppercase;
+    font-family: "Brother";
+    font-size: 9px;
+    line-height: 11px;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+  }
+
+  .social {
+    display: flex;
+    column-gap: 7px;
+    margin-top: 46px;
+    margin-bottom: 40px;
+  }
+
+  .whatsapp {
+    background-color: #ff4800;
+    width: 85px;
+    height: 27px;
+    justify-content: center;
+    align-items: center;
+  }
+  .call {
+    background: #00d4c5;
+    width: 74px;
+    height: 27px;
+    justify-content: center;
+    align-items: center;
+  }
+  .email {
+    background: #0349f7;
+    width: 74px;
+    height: 27px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content {
+    display: grid;
+    row-gap: 30px;
+    margin-bottom: 50px;
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-image {
+      display: none;
+    }
+    .desktop-image {
+      display: block;
+    }
+    main h1 {
+      position: absolute;
+      width: 700px;
+      height: 380px;
+      left: 139px;
+      top: 403.56px;
+      font-size: 280px;
+      line-height: 190px;
+      transform: rotate(-7.01deg);
+    }
+    .social {
+    column-gap: 22px;
+    margin-top: 100px;
+    margin-bottom: 60px;
+  }
+    main section {
+      width: 514px;
+    }
+    .whatsapp {
+      width: 186px;
+      height: 46px;
+    }
+    .call {
+      width: 186px;
+      height: 46px;
+    }
+    .email {
+      width: 186px;
+      height: 46px;
+    }
+    .text {
+      font-size: 14px;
+      line-height: 17px;
+    }
+    .content {
+    row-gap: 50px;
+    margin-bottom: 100px;
+  }
+  }
+</style>

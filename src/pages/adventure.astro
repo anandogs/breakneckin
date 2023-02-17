@@ -202,7 +202,7 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
 });
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title={adventureLocationSelected}>
   <Header adventureLocation={adventureLocationSelected} selectedField={"adventure"} darkMode={true} client:load />
   <body>
     <div class="desktop-image">

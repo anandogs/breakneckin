@@ -1,0 +1,135 @@
+---
+import { contentfulClient } from "../../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+
+import logo from "../../images/header/breakneck.svg";
+import closeButton from "../../images/header/burger_open.svg";
+
+import Footer from "../../components/Footer.svelte";
+
+import "../../styles/global.css";
+
+export async function getStaticPaths() {
+  const { items } = await contentfulClient.getEntries({
+    content_type: "policies",
+  });
+  const pages = items.map((item: any) => ({
+    params: { policy: item.fields.slug },
+    props: {
+      title: item.fields.pageTitle,
+      heading: item.fields.policyHeading,
+      content: documentToHtmlString(item.fields.policyDetails),
+    },
+  }));
+  return pages;
+}
+
+const { content, title, heading } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <title>{title}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      const previousPage = document.getElementById("go-back");
+      previousPage?.addEventListener("click", goBack);
+      function goBack() {
+        window.history.back();
+      }
+    </script></head
+  >
+
+  <body>
+    <main>
+      <nav>
+        <a href="/">
+          <img class="logo" src={logo} alt="Breakneck Logo" />
+        </a>
+        <div id="go-back">
+          <img class="close-button" src={closeButton} alt="Close Button" />
+        </div>
+      </nav>
+      <section class="policies">
+        <h1>{heading}</h1>
+        <article set:html={content} />
+      </section>
+    </main>
+    <Footer isDarkMode={true} />
+  </body>
+</html>
+
+<style>
+  main {
+    background-color: black;
+    color: white;
+  }
+  nav div {
+    cursor: pointer;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 54px;
+    right: 31.47px;
+  }
+
+  .logo {
+    position: absolute;
+    width: 103px;
+    height: 35.52px;
+    left: 84px;
+    top: 35px;
+  }
+
+  .policies {
+    padding-top: 128px;
+    padding-bottom: 50px;
+  }
+
+  .policies article {
+    display: grid;
+    row-gap: 30px;
+  }
+
+  .policies h1 {
+    font-size: 30px;
+    line-height: 31px;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  @media (min-width: 1024px) {
+    .close-button {
+      width: 14.89px;
+      height: 15.06px;
+      right: 204.36px;
+      top: 158.59px;
+    }
+
+    .policies {
+      padding-top: 311px;
+      padding-bottom: 100px;
+      width: 560px;
+    }
+
+    .policies article {
+      row-gap: 60px;
+    }
+
+    .logo {
+      width: 175px;
+      height: 56.36px;
+      left: 233px;
+      top: 140px;
+    }
+    .policies h1 {
+      text-align: start;
+      font-size: 50px;
+      line-height: 51px;
+      margin-bottom: 60px;
+    }
+  }
+</style>

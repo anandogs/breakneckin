@@ -1,27 +1,28 @@
 <script lang="ts">
   import logo from "../images/header/breakneck.svg";
   import instagramLogo from "../images/footer/instagram.svg";
+  export let isDarkMode:boolean = false;
 </script>
 
-<footer>
-  <div>
-    <img src={logo} alt="logo" class="logo-footer" />
+<footer class:dark-mode={isDarkMode}>
+  <div >
+    <img class:light-mode-svg={isDarkMode} src={logo} alt="logo" class="logo-footer" />
   </div>
   <div class="footer-menu">
     <div class="footer-menu-items" id='uppercase-items'>
-        <div>
+        <a href="/policies/terms-and-conditions">
             TERMS & CONDITIONS
-        </div>
-        <div>
+        </a>
+        <a href="/policies/privacy-policy">
             PRIVACY POLICY
-        </div>
-        <div>
-            TERMS & CONDITIONS
-        </div>
+        </a>
+        <a href="/policies/refunds-and-cancellations">
+            REFUNDS & CANCELLATIONS 
+        </a>
     </div>
     <div class="footer-menu-items">
         <div>© Breakneck 2022</div>
-        <img src={instagramLogo} alt="Instagram Logo" class="instagram-logo">
+        <a href="https://www.instagram.com/breakneck.in/"><img class:light-mode-svg={isDarkMode} src={instagramLogo} alt="Instagram Logo" class="instagram-logo"></a>
     </div>
     <div class="footer-menu-items">
         <div>B2 Hawa Apartments, Andheri East, Mumbai, India</div>
@@ -31,9 +32,9 @@
 </footer>
 
 <style>
+  
   footer {
     background-color: black;
-
     color: white;
     display: grid;
     row-gap: 19.48px;
@@ -69,6 +70,17 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;    
   }
+  
+  .dark-mode {
+    background-color: white;
+    color: black;
+  }
+
+  .light-mode-svg {
+    filter: invert(100%);
+  }
+
+
 
   @media (min-width: 1024px) {
     footer {

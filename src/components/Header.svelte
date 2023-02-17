@@ -54,16 +54,16 @@
   <ul class:dark-mode={darkMode}>
     <a href="/adventure"><li class:is-selected={adventureSelected}>{adventureLocation}</li></a> 
    <a href="/put-your-name-down"><li class:is-selected={putNameSelected}>PUT YOUR NAME DOWN</li></a>
-    <li class:is-selected={hitUsUpSelected}>HIT US UP</li>
-    <li class:is-selected={faqsSelected}>FAQs</li>
+    <a href="/hit-us-up" class:is-selected={hitUsUpSelected}>HIT US UP</a>
+    <a href="/faqs" class:is-selected={faqsSelected}>FAQs</a>
   </ul>
 </header>
 <ul class="mobile-menu" style={isBurgerOpen? "display:block":"display:none"}>
-    <li style="padding-top: 26.8px; padding-left: 27.89px; font-size: 50px">{adventureLocation}</li>
-    <li style="padding-top: 23.67px; padding-left: 81px; font-size: 30px; color: #0349F7;">PUT YOUR NAME DOWN</li>
+    <a href="/adventure"><li style="padding-top: 26.8px; padding-left: 27.89px; font-size: 50px">{adventureLocation}</li></a>
+   <a href="/put-your-name-down"><li style="padding-top: 23.67px; padding-left: 81px; font-size: 30px; color: #0349F7;">PUT YOUR NAME DOWN</li></a>
     <div>
-    <li>hit us up</li>
-    <li style="color: #EEC124;">FAQs</li>
+  <a href="/hit-us-up"><li>hit us up</li></a>
+  <a href="/faqs"><li style="color: #EEC124;">FAQs</li></a>
 </div>
 
 

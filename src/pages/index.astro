@@ -3,13 +3,12 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.svelte";
 import { contentfulClient } from "../lib/contentful";
 
-
 const adventureEntries = await contentfulClient.getEntries<any>({
   content_type: "adventureLocation",
 });
 
-const adventureLocationSelected = adventureEntries.items[0].fields.adventureLocation;
-
+const adventureLocationSelected =
+  adventureEntries.items[0].fields.adventureLocation;
 
 const entries = await contentfulClient.getEntries<any>({
   content_type: "landingPage",
@@ -26,14 +25,22 @@ const mobileImage = assets.find((asset: any) => asset.sys.id === mobileImageId);
 
 const nextTripLocationName = entries.items[0].fields.nextTripLocationName;
 const nextTripCoordinates = entries.items[0].fields.nextTripCoordinates;
+
+const [lat, long] = nextTripCoordinates.match(/[-.\d]+/g);
+const googleMapLink = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
+
+
 const adventureName = entries.items[0].fields.adventureName;
 const adventureDescription = entries.items[0].fields.adventureDescription;
 const dates = entries.items[0].fields.dates;
 ---
 
 <Layout title="Breakneck">
-  <Header adventureLocation={adventureLocationSelected} darkMode={true} client:load />
-
+  <Header
+    adventureLocation={adventureLocationSelected}
+    darkMode={true}
+    client:load
+  />
   <main>
     <div>
       <div class="desktop-image">
@@ -58,7 +65,12 @@ const dates = entries.items[0].fields.dates;
           <h1>{nextTripLocationName}</h1>
         </div>
         <div class="font-style-3">
-          <p>{nextTripCoordinates}</p>
+          <a
+            href={googleMapLink}
+            target="_blank"
+          >
+            <p>{nextTripCoordinates}</p>
+          </a>
         </div>
         <div class="horizontal-line"></div>
         <div class="font-style-2">
@@ -78,7 +90,9 @@ const dates = entries.items[0].fields.dates;
           <h1>{dates}</h1>
         </div>
         <div class="button-style">
-          <button>TELL ME MORE</button>
+          <a href="/adventure">
+            <button>TELL ME MORE</button>
+          </a>
         </div>
       </div>
       <div class="quote">
@@ -93,8 +107,8 @@ const dates = entries.items[0].fields.dates;
         </div>
       </div>
     </div>
+    
   </main>
-  
 </Layout>
 
 <style>
@@ -156,13 +170,14 @@ const dates = entries.items[0].fields.dates;
   }
   .quote {
     width: 65%;
-    max-width: 234.37px;
+    max-width: 234 0.37px;
     color: white;
-    padding-top: 248px;
+    top: 248px;
     padding-left: 78px;
     font-size: 72px;
     line-height: 45px;
     transform: rotate(-3.51deg);
+    position: relative;
   }
   .quote h1 {
     font-size: 72px;
@@ -170,13 +185,17 @@ const dates = entries.items[0].fields.dates;
   }
   .credit {
     color: white;
-    transform: translateY(-610px) translateX(14px) rotate(-90deg);
+    transform: translateY(-390px) translateX(14px) rotate(-90deg);
     text-transform: uppercase;
+    right: 0;
+  }
+
+  .credit p {
     font-size: 8px;
     line-height: 9.6px;
     letter-spacing: 0.05em;
-    right: 0;
   }
+
   .button-style {
     width: fit-content;
     padding-top: 7px;
@@ -195,9 +214,9 @@ const dates = entries.items[0].fields.dates;
       display: none;
     }
     .black-box {
-    height: 955px;
-    background-color: black;
-  }
+      height: 955px;
+      background-color: black;
+    }
 
     .red-box {
       width: 32.23%;
@@ -206,16 +225,16 @@ const dates = entries.items[0].fields.dates;
       transform: translateX(282px) translateY(-30%);
       row-gap: 20px;
       padding-top: 51px;
-    padding-bottom: 64px;
+      padding-bottom: 64px;
     }
     .red-box div {
       padding-left: 49px;
       padding-right: 88px;
     }
     .horizontal-line {
-    margin-left: 49px;
-    margin-right: 88px;
-  }
+      margin-left: 49px;
+      margin-right: 88px;
+    }
 
     .font-style-1 {
       font-size: 75px;
@@ -238,24 +257,23 @@ const dates = entries.items[0].fields.dates;
       font-size: 51.5px;
     }
     .button-style {
-    width: fit-content;
-    padding-top: 12px;
-  }
-  .quote {
-    display: none;
-  }
+      width: fit-content;
+      padding-top: 12px;
+    }
+    .quote {
+      display: none;
+    }
 
-  .desktop-quote {
-    width: 47.47%;
-    max-width: 820.31px;
-    padding-left: 620px;
-    transform: translateY(-70%) rotate(-3.51deg);
-  }
-  .desktop-quote h1 {
-    color: white;
-    font-size: 280px;
-    line-height: 180px;
-  }
-
+    .desktop-quote {
+      width: 47.47%;
+      max-width: 820.31px;
+      padding-left: 620px;
+      transform: translateY(-70%) rotate(-3.51deg);
+    }
+    .desktop-quote h1 {
+      color: white;
+      font-size: 280px;
+      line-height: 180px;
+    }
   }
 </style>

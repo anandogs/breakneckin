@@ -2,6 +2,7 @@
   import logo from "../images/header/breakneck.svg";
   import instagramLogo from "../images/footer/instagram.svg";
   export let isDarkMode:boolean = false;
+  const currentYear = new Date().getFullYear();
 </script>
 
 <footer class:dark-mode={isDarkMode}>
@@ -21,8 +22,8 @@
         </a>
     </div>
     <div class="footer-menu-items">
-        <div>© Breakneck 2022</div>
-        <a href="https://www.instagram.com/breakneck.in/"><img class:light-mode-svg={isDarkMode} src={instagramLogo} alt="Instagram Logo" class="instagram-logo"></a>
+        <div>© Breakneck {currentYear}</div>
+        <a href="https://www.instagram.com/breakneckin/"><img class:light-mode-svg={isDarkMode} src={instagramLogo} alt="Instagram Logo" class="instagram-logo"></a>
     </div>
     <div class="footer-menu-items">
         <div>B2 Hawa Apartments, Andheri East, Mumbai, India</div>

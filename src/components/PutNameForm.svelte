@@ -106,7 +106,7 @@
         return response.json();
       })
       .then((data) => {
-        window.location.href = "https://rzp.io/l/5zHNtedRm";
+        window.location.href = "https://rzp.io/l/AiYuqwY";
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
@@ -236,7 +236,7 @@
 <style>
   p {
     font-size: 12px;
-    line-height: 14px;
+    line-height: 19px;
     letter-spacing: 0.05em;
     color: #0349f7;
   }

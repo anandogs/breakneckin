@@ -15,6 +15,22 @@ const contentfulData = await contentfulClient.getEntries<any>({
   content_type: "faQs",
 });
 const faqs = contentfulData.items[0].fields.questionsAndAnswers;
+
+const contactDetails = await contentfulClient.getEntries<any>({
+  content_type: "hitUsUp",
+});
+
+const whatsapp = contactDetails.items[0].fields.whatsapp
+  ? contactDetails.items[0].fields.whatsapp
+  : null;
+const email = contactDetails.items[0].fields.email
+  ? contactDetails.items[0].fields.email
+  : null;
+const call = contactDetails.items[0].fields.call
+  ? contactDetails.items[0].fields.call
+  : null;
+
+
 ---
 
 <Layout title="FAQ's">
@@ -40,6 +56,29 @@ const faqs = contentfulData.items[0].fields.questionsAndAnswers;
           );
         })
       }
+      <div class="social">
+        <a
+          href={`https://wa.me/${whatsapp}`}
+          style={whatsapp ? "display:flex" : "display:none"}
+          class="whatsapp"
+        >
+          <p class="text">Whatsapp</p>
+        </a>
+        <a
+          href={`tel:${call}`}
+          style={call ? "display:flex" : "display:none"}
+          class="call"
+        >
+          <p class="text">Call</p>
+        </a>
+        <a
+          href={`mailto:${email}`}
+          style={email ? "display:flex" : "display:none"}
+          class="email"
+        >
+          <p class="text">Email</p>
+        </a>
+      </div>
     </section>
   </main>
 </Layout>
@@ -69,6 +108,41 @@ const faqs = contentfulData.items[0].fields.questionsAndAnswers;
     display: grid;
     row-gap: 1 0px;
   }
+  .text {
+    text-transform: uppercase;
+    font-family: "Brother";
+    font-size: 9px;
+    line-height: 11px;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+  }
+
+  .social {
+    display: flex;
+    column-gap: 7px;
+  }
+
+  .whatsapp {
+    background-color: #ff4800;
+    width: 85px;
+    height: 27px;
+    justify-content: center;
+    align-items: center;
+  }
+  .call {
+    background: #00d4c5;
+    width: 74px;
+    height: 27px;
+    justify-content: center;
+    align-items: center;
+  }
+  .email {
+    background: #0349f7;
+    width: 74px;
+    height: 27px;
+    justify-content: center;
+    align-items: center;
+  }
   @media (min-width: 1024px) {
     
     main {
@@ -79,6 +153,7 @@ const faqs = contentfulData.items[0].fields.questionsAndAnswers;
     main h1 {
       display: none;
     }
+    
     .faqs {
     row-gap: 15px;
     margin-bottom: 60px;
@@ -88,6 +163,22 @@ const faqs = contentfulData.items[0].fields.questionsAndAnswers;
     display: grid;
     row-gap: 15px;
   }
+  .whatsapp {
+      width: 186px;
+      height: 46px;
+    }
+    .call {
+      width: 186px;
+      height: 46px;
+    }
+    .email {
+      width: 186px;
+      height: 46px;
+    }
+    .text {
+      font-size: 14px;
+      line-height: 17px;
+    }
 
   }
 </style>

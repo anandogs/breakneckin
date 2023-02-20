@@ -78,6 +78,7 @@
     display: flex;
     font-family: "Thunderhouse", Fallback, sans-serif;
     color: #000;
+    z-index: 10;
   }
 
   .light-mode-svg {
@@ -110,6 +111,7 @@
     width: 327px;
     background-color: white;
     font-family: "Thunderhouse", Fallback, sans-serif;
+    z-index: 10;
   }
 
   .mobile-menu div {

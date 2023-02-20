@@ -15,6 +15,7 @@
   let email: string = "";
   let phone: string = "";
   let medicalConditions: string = "";
+  
   let optIn: boolean = false;
 
   let nameCheck: boolean = true;
@@ -234,6 +235,9 @@
 </section>
 
 <style>
+  input:focus {
+    outline: none;
+  }
   p {
     font-size: 12px;
     line-height: 19px;
@@ -313,6 +317,7 @@
   }
   button {
     background: #ff4800;
+    color: black;
   }
 
   .shake {

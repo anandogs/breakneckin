@@ -254,7 +254,7 @@
     font-family: "Brother";
     text-transform: uppercase;
     border: none;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 14px;
     letter-spacing: 0.05em;
     width: 100%;

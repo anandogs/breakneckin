@@ -108,7 +108,6 @@
   .time-description-item {
     display: grid;
     row-gap: 7px;
-    padding-bottom: 20px;
   }
   .no-border-bottom-mobile {
     border-bottom: none;

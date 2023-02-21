@@ -6,11 +6,6 @@
 
   export let cost: string;
 
-  import { onMount } from "svelte";
-  onMount(() => {
-    console.log(cost);
-  });
-
   let name: string = "";
   let email: string = "";
   let phone: string = "";
@@ -23,6 +18,7 @@
   let phoneCheck: boolean = true;
   let optInCheck: boolean = true;
   let invalidSubmission: boolean = false;
+  let buttonClicked: boolean = false;
 
   const updateValue = () => {
     invalidSubmission = false;
@@ -50,20 +46,10 @@
     phoneCheck = true;
   }
 
-  const data = {
-    records: [
-      {
-        fields: {
-          Name: name,
-          "Email Address": email,
-          Phone: phone,
-          "Medical Conditions": medicalConditions,
-        },
-      },
-    ],
-  };
 
   const handleSubmit = async (event: any) => {
+
+    buttonClicked = true;
     event.preventDefault();
     
 
@@ -87,8 +73,22 @@
       optIn === false
     ) {
         invalidSubmission = true;
+        buttonClicked = false;
       return;
     }
+
+    const data = {
+    records: [
+      {
+        fields: {
+          Name: name,
+          "Email Address": email,
+          Phone: phone,
+          "Medical Conditions": medicalConditions,
+        },
+      },
+    ],
+  };
 
     await fetch(
       "https://zg418763sf.execute-api.ap-south-1.amazonaws.com/sign-up",
@@ -99,19 +99,9 @@
         },
         body: JSON.stringify(data),
       }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        window.location.href = "https://rzp.io/l/AiYuqwY";
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-      });
+    ).then((res) => window.location.href = "https://rzp.io/l/AiYuqwY");
+     
+    
   };
 </script>
 
@@ -229,7 +219,11 @@
       </p>
     </div>
     <div class="submission">
+      {#if buttonClicked}
+      <button type="submit" class:disabled-button={buttonClicked} disabled> DONE </button>
+      {:else}
       <button type="submit" class:shake={invalidSubmission}> DONE </button>
+      {/if}
     </div>
   </form>
 </section>
@@ -342,6 +336,13 @@
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+.disabled-button {
+  pointer-events: none;
+  background-color: #BDBDBD;
+  color: white;
+
 }
 
   @media (min-width: 1024px) {

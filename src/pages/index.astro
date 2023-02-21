@@ -49,11 +49,17 @@ const dates = entries.items[0].fields.dates;
           alt={desktopImage.fields.description}
         />
       </div>
+      
       <div class="mobile-image">
         <img
           src={mobileImage.fields.file.url}
           alt={mobileImage.fields.description}
         />
+      </div>
+    </div>
+    <div style="display:flex; justify-content: flex-end; ">
+      <div class="desktop-credit">
+        <p>{desktopImage.fields.description}</p>
       </div>
     </div>
     <div class="black-box">
@@ -102,7 +108,7 @@ const dates = entries.items[0].fields.dates;
         <h1>push the rush</h1>
       </div>
       <div style="display:flex; justify-content: flex-end; ">
-        <div class="credit">
+        <div class="mobile-credit">
           <p>{mobileImage.fields.description}</p>
         </div>
       </div>
@@ -130,7 +136,7 @@ const dates = entries.items[0].fields.dates;
     width: 84%;
     position: absolute;
     right: 0;
-    transform: translateY(-50%);
+    transform: translateY(-60%);
     max-width: 303px;
     display: grid;
     row-gap: 8px;
@@ -183,17 +189,20 @@ const dates = entries.items[0].fields.dates;
     font-size: 72px;
     line-height: 45px;
   }
-  .credit {
+  .mobile-credit {
     color: white;
-    transform: translateY(-390px) translateX(14px) rotate(-90deg);
+    transform: translateY(-420px) translateX(14px) rotate(-90deg);
     text-transform: uppercase;
     right: 0;
   }
 
-  .credit p {
+  .mobile-credit p {
     font-size: 8px;
     line-height: 9.6px;
     letter-spacing: 0.05em;
+  }
+  .desktop-credit {
+    display: none;
   }
 
   .button-style {
@@ -213,6 +222,22 @@ const dates = entries.items[0].fields.dates;
     .mobile-image {
       display: none;
     }
+    .mobile-credit {
+      display: none;
+    }
+    .desktop-credit {
+      display: block;
+      transform: rotate(-90deg) translateY(50%) translateX(100%);
+    }
+
+    .desktop-credit p {
+      font-size: 10px;
+line-height: 12px;
+letter-spacing: 0.05em;
+color: #FFFFFF;
+
+    }
+
     .black-box {
       height: 955px;
       background-color: black;
@@ -222,7 +247,7 @@ const dates = entries.items[0].fields.dates;
       width: 32.23%;
       max-width: 557px;
       position: relative;
-      transform: translateX(282px) translateY(-30%);
+      transform: translateX(282px) translateY(-50%);
       row-gap: 20px;
       padding-top: 51px;
       padding-bottom: 64px;

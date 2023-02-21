@@ -201,6 +201,16 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
   return data;
 });
 ---
+<script>
+  const myButton = document.getElementById("myButton") as HTMLButtonElement;
+  
+  myButton?.addEventListener("click", function() {
+    myButton.style.backgroundColor = "#BDBDBD";
+    myButton.style.color = "white";
+    myButton.style.cursor = "default";
+    myButton.disabled = true;
+  });
+  </script>
 
 <Layout title={adventureLocationSelected}>
   <Header adventureLocation={adventureLocationSelected} selectedField={"adventure"} darkMode={true} client:load />
@@ -273,7 +283,7 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
     }
     <div class="sign-up">
       <a href="/put-your-name-down">
-        <button class="red"> YUP I’M IN</button>
+        <button id="myButton" class="red"> YUP I’M IN</button>
       </a>
     </div>
   </body>

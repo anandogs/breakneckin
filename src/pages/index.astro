@@ -34,6 +34,17 @@ const adventureName = entries.items[0].fields.adventureName;
 const adventureDescription = entries.items[0].fields.adventureDescription;
 const dates = entries.items[0].fields.dates;
 ---
+<script>
+const myButton = document.getElementById("myButton") as HTMLButtonElement;
+
+myButton?.addEventListener("click", function() {
+  myButton.style.backgroundColor = "#BDBDBD";
+  myButton.style.color = "white";
+  myButton.style.cursor = "default";
+  myButton.disabled = true;
+});
+</script>
+
 
 <Layout title="Breakneck">
   <Header
@@ -97,7 +108,7 @@ const dates = entries.items[0].fields.dates;
         </div>
         <div class="button-style">
           <a href="/adventure">
-            <button>TELL ME MORE</button>
+            <button id="myButton">TELL ME MORE</button>
           </a>
         </div>
       </div>
@@ -126,6 +137,7 @@ const dates = entries.items[0].fields.dates;
   }
   .mobile-image img {
     width: 100%;
+    height: 100vh;
   }
   .black-box {
     height: 400px;
@@ -209,6 +221,12 @@ const dates = entries.items[0].fields.dates;
     width: fit-content;
     padding-top: 7px;
   }
+
+.button-style button {
+  background-color: black;
+  color: white;
+}
+
   @media (min-width: 1024px) {
     .desktop-image {
       display: flex;

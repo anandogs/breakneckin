@@ -158,14 +158,26 @@ line-height: 31px;
     letter-spacing: 0.05em;
     font-size: 9px;
     line-height: 10.8px;
-    color: white;
-    background-color: black;
+    color: black;
+    background: #ff4800;
     border: 0px;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 15px;
     padding-right: 16px;
     cursor: pointer;
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  button:active {
+    color: white;
+  }
+
+  button:hover {
+    color: white;
   }
 
   p {

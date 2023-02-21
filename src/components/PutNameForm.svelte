@@ -232,7 +232,7 @@
   input:focus {
     outline: none;
   }
-  p {
+  section p {
     font-size: 12px;
     line-height: 19px;
     letter-spacing: 0.05em;
@@ -248,7 +248,7 @@
     font-family: "Brother";
     text-transform: uppercase;
     border: none;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 14px;
     letter-spacing: 0.05em;
     width: 100%;
@@ -311,7 +311,7 @@
   }
   button {
     background: #ff4800;
-    color: black;
+    /* color: black; */
   }
 
   .shake {
@@ -346,9 +346,9 @@
 }
 
   @media (min-width: 1024px) {
-    p {
+    section p {
       font-size: 18px;
-      line-height: 22px;
+      line-height: 30px;
     }
     h1 {
       display: none;

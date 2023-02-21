@@ -23,7 +23,7 @@
     </div>
     <div class="footer-menu-items">
         <div>© Breakneck {currentYear}</div>
-        <a href="https://www.instagram.com/breakneck.in/"><img class:light-mode-svg={isDarkMode} src={instagramLogo} alt="Instagram Logo" class="instagram-logo"></a>
+        <a href="https://www.instagram.com/breakneck.in/" target="_blank" rel="noreferrer"><img class:light-mode-svg={isDarkMode} src={instagramLogo} alt="Instagram Logo" class="instagram-logo"></a>
     </div>
     <div class="footer-menu-items">
         <div>B2 Hawa Apartments, Andheri East, Mumbai, India</div>

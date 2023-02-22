@@ -1,14 +1,14 @@
 <script lang="ts">
   export let adventureLocation: string;
-  
+
   export let darkMode: boolean = false;
   export let selectedField: string = "";
-  
-  let adventureSelected:boolean = false;
-  let putNameSelected:boolean = false;
-  let hitUsUpSelected:boolean = false;
-  let faqsSelected:boolean = false;
-  
+
+  let adventureSelected: boolean = false;
+  let putNameSelected: boolean = false;
+  let hitUsUpSelected: boolean = false;
+  let faqsSelected: boolean = false;
+
   if (selectedField === "adventure") {
     adventureSelected = true;
   } else if (selectedField === "putName") {
@@ -34,7 +34,7 @@
     <img
       src={burgerClosed}
       alt="Burger Menu Closed"
-      style={isBurgerOpen ? "display:none;" : "display:block;"} 
+      style={isBurgerOpen ? "display:none;" : "display:block;"}
       class:light-mode-svg={!darkMode}
       on:click={toggleMenu}
       on:keydown={toggleMenu}
@@ -49,24 +49,42 @@
     />
   </div>
   <a href="/">
-  <img src={headerImage} alt="Breakneck Logo" class="header-image" class:light-mode-svg={!darkMode}/>
-</a>
+    <img
+      src={headerImage}
+      alt="Breakneck Logo"
+      class="header-image"
+      class:light-mode-svg={!darkMode}
+      class:special-adventure-white={adventureSelected}
+    />
+  </a>
   <ul class:dark-mode={darkMode}>
-    <a href="/adventure"><li class:is-selected={adventureSelected}>{adventureLocation}</li></a> 
-   <a href="/put-your-name-down"><li class:is-selected={putNameSelected}>PUT YOUR NAME DOWN</li></a>
+    <a href="/adventure"
+      ><li class:is-selected-adventure={adventureSelected}>{adventureLocation}</li></a
+    >
+    <a href="/put-your-name-down"
+      ><li class:is-selected={putNameSelected}>PUT YOUR NAME DOWN</li></a
+    >
     <a href="/hit-us-up" class:is-selected={hitUsUpSelected}>HIT US UP</a>
     <a href="/faqs" class:is-selected={faqsSelected}>FAQs</a>
   </ul>
 </header>
-<ul class="mobile-menu" style={isBurgerOpen? "display:block":"display:none"}>
-    <a href="/adventure"><li style="padding-top: 26.8px; padding-left: 27.89px; font-size: 50px">{adventureLocation}</li></a>
-   <a href="/put-your-name-down"><li style="padding-top: 23.67px; padding-left: 81px; font-size: 30px; color: #0349F7;">PUT YOUR NAME DOWN</li></a>
-    <div>
-  <a href="/hit-us-up"><li>hit us up</li></a>
-  <a href="/faqs"><li style="color: #EEC124;">FAQs</li></a>
-</div>
-
-
+<ul class="mobile-menu" style={isBurgerOpen ? "display:block" : "display:none"}>
+  <a href="/adventure"
+    ><li style="padding-top: 26.8px; padding-left: 27.89px; font-size: 50px">
+      {adventureLocation}
+    </li></a
+  >
+  <a href="/put-your-name-down"
+    ><li
+      style="padding-top: 23.67px; padding-left: 81px; font-size: 30px; color: #0349F7;"
+    >
+      PUT YOUR NAME DOWN
+    </li></a
+  >
+  <div>
+    <a href="/hit-us-up"><li>hit us up</li></a>
+    <a href="/faqs"><li style="color: #EEC124;">FAQs</li></a>
+  </div>
 </ul>
 
 <style>
@@ -83,6 +101,10 @@
 
   .light-mode-svg {
     filter: invert(100%);
+  }
+
+  .special-adventure-white {
+    filter: none;
   }
 
   .header-image {
@@ -126,29 +148,31 @@
 
   @media (min-width: 1024px) {
     header {
-      font-size: 40px;
-      justify-content: space-between;
-      padding-left: 233px;
-
+      font-size: 2.3vw;
+      column-gap: 7vw;
+      /* padding-left: 13.4vw; */
+      width: 100vw;
     }
     .burger {
       display: none;
     }
     .header-image {
-      width: 175px;
+      width: 10.1vw;
       padding-top: 140px;
+      padding-left: 13.5vw;
     }
     header ul {
       display: flex;
       padding-top: 159px;
-      padding-right: 188.14px;
-      justify-content: space-between;
-      max-width: 1005px;
+      column-gap: 7vw;
       width: 100%;
     }
 
     .is-selected {
-      color: #0349F7;
+      color: #0349f7;
+    }
+    .is-selected-adventure {
+      color: white;
     }
     .dark-mode {
       color: #fff;
@@ -157,8 +181,6 @@
     .dark-mode .is-selected {
       color: #000;
     }
-
-
 
     .mobile-menu {
       display: none;

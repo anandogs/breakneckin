@@ -53,7 +53,7 @@
     color: #000000;
   }
   .adventure {
-    padding-bottom: 15px;
+    /* padding-bottom: 15px; */
     border-bottom: 1px solid black;
     margin-bottom: 15px;
   }
@@ -108,6 +108,7 @@
   .time-description-item {
     display: grid;
     row-gap: 7px;
+    padding-bottom: 20px;
   }
   .no-border-bottom-mobile {
     border-bottom: none;

@@ -212,8 +212,8 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
   });
   </script>
 
-<Layout title={adventureLocationSelected}>
-  <Header adventureLocation={adventureLocationSelected} selectedField={"adventure"} darkMode={true} client:load />
+<Layout title={`Breakneck | ${adventureLocationSelected}`}>
+  <Header adventureLocation={adventureLocationSelected} selectedField={"adventure"} darkMode={false} client:load />
   <body>
     <div class="desktop-image">
       <img src={desktopImageSrc} height="1123px" width="100%" />
@@ -370,7 +370,6 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
     }
     .desktop-image h1 {
       position: absolute;
-      width: 1241.41px;
       height: 180px;
       left: -41px;
       top: 700px;

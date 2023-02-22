@@ -29,11 +29,9 @@ const email = contactDetails.items[0].fields.email
 const call = contactDetails.items[0].fields.call
   ? contactDetails.items[0].fields.call
   : null;
-
-
 ---
 
-<Layout title="FAQ's">
+<Layout title="Breakneck | FAQs">
   <Header
     adventureLocation={adventureLocationSelected}
     selectedField={"faqs"}
@@ -49,35 +47,41 @@ const call = contactDetails.items[0].fields.call
               <h2>{faq.fields.heading}</h2>
               <div class="para-styling">
                 {faq.fields.body.content.map((content: any) => {
-                  return <p>{content.content[0].value}</p>
+                  return <p>{content.content[0].value}</p>;
                 })}
-            </div>
+              </div>
             </div>
           );
         })
       }
       <div class="social">
-        <a
-          href={`https://wa.me/${whatsapp}`}
-          style={whatsapp ? "display:flex" : "display:none"}
-          class="whatsapp"
-        >
-          <p class="text">Whatsapp</p>
-        </a>
-        <a
-          href={`tel:${call}`}
-          style={call ? "display:flex" : "display:none"}
-          class="call"
-        >
-          <p class="text">Call</p>
-        </a>
-        <a
-          href={`mailto:${email}`}
-          style={email ? "display:flex" : "display:none"}
-          class="email"
-        >
-          <p class="text">Email</p>
-        </a>
+        {
+          whatsapp ? (
+            <a
+              href={`https://wa.me/${whatsapp}`}
+              target="_blank"
+              style={whatsapp ? "display:flex" : "display:none"}
+              class="whatsapp"
+            >
+              <p class="text">Whatsapp</p>
+            </a>
+          ) : null
+        }
+        {
+          call ? (
+            <a href={`tel:${call}`} class="call">
+              <p class="text">Call</p>
+            </a>
+          ) : null
+        }
+
+        {
+          email ? (
+            <a href={`mailto:${email}`} target="_blank" class="email">
+              <p class="text">Email</p>
+            </a>
+          ) : null
+        }
       </div>
     </section>
   </main>
@@ -123,6 +127,7 @@ const call = contactDetails.items[0].fields.call
   }
 
   .whatsapp {
+    display: flex;
     background-color: #ff4800;
     width: 85px;
     height: 27px;
@@ -130,6 +135,7 @@ const call = contactDetails.items[0].fields.call
     align-items: center;
   }
   .call {
+    display: flex;
     background: #00d4c5;
     width: 74px;
     height: 27px;
@@ -137,6 +143,7 @@ const call = contactDetails.items[0].fields.call
     align-items: center;
   }
   .email {
+    display: flex;
     background: #0349f7;
     width: 74px;
     height: 27px;
@@ -144,30 +151,35 @@ const call = contactDetails.items[0].fields.call
     align-items: center;
   }
   @media (min-width: 1024px) {
-    
     main {
       margin-top: 318px;
       margin-bottom: 100px;
     }
-    
+
     main h1 {
       display: none;
     }
-    
+
     .faqs {
-    row-gap: 15px;
-    margin-bottom: 60px;
-    width: 591px;
-  }
-  .para-styling {
-    display: grid;
-    row-gap: 15px;
-  }
-  .whatsapp {
+      row-gap: 15px;
+      margin-bottom: 60px;
+      width: 591px;
+    }
+    .para-styling {
+      display: grid;
+      row-gap: 15px;
+    }
+    .social {
+      column-gap: 22px;
+      margin-top: 100px;
+      margin-bottom: 60px;
+    }
+    .whatsapp {
       width: 186px;
       height: 46px;
     }
     .call {
+      display: none;
       width: 186px;
       height: 46px;
     }
@@ -179,6 +191,5 @@ const call = contactDetails.items[0].fields.call
       font-size: 14px;
       line-height: 17px;
     }
-
   }
 </style>

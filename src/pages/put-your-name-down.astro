@@ -17,7 +17,7 @@ const contentfulData = await contentfulClient.getEntries<any>({
 const cost = contentfulData.items[0].fields.amount;
 ---
 
-<Layout title="Put your name down">
+<Layout title="Breakneck | Put your name down">
   <Header adventureLocation={adventureLocationSelected} selectedField={"putName"} client:load />
   <main>
     <PutNameForm cost={cost} client:load/>

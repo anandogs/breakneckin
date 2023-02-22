@@ -39,7 +39,7 @@ const mobileImage = allEntries.includes.Asset.find(
 );
 ---
 
-<Layout title="Hit Us Up">
+<Layout title="Breakneck | Hit Us Up">
   <main>
     <Header
     adventureLocation={adventureLocationSelected}
@@ -63,27 +63,33 @@ const mobileImage = allEntries.includes.Asset.find(
     <h1>breakneck bts</h1>
     <section>
       <div class="social">
-        <a
-          href={`https://wa.me/${whatsapp}`}
-          style={whatsapp ? "display:flex" : "display:none"}
-          class="whatsapp"
-        >
-          <p class="text">Whatsapp</p>
-        </a>
-        <a
-          href={`tel:${call}`}
-          style={call ? "display:flex" : "display:none"}
-          class="call"
-        >
-          <p class="text">Call</p>
-        </a>
-        <a
-          href={`mailto:${email}`}
-          style={email ? "display:flex" : "display:none"}
-          class="email"
-        >
-          <p class="text">Email</p>
-        </a>
+        {
+          whatsapp ? (
+            <a
+              href={`https://wa.me/${whatsapp}`}
+              target="_blank"
+              style={whatsapp ? "display:flex" : "display:none"}
+              class="whatsapp"
+            >
+              <p class="text">Whatsapp</p>
+            </a>
+          ) : null
+        }
+        {
+          call ? (
+            <a href={`tel:${call}`} class="call">
+              <p class="text">Call</p>
+            </a>
+          ) : null
+        }
+
+        {
+          email ? (
+            <a href={`mailto:${email}`} target="_blank" class="email">
+              <p class="text">Email</p>
+            </a>
+          ) : null
+        }
       </div>
       <div class="content">
         {
@@ -99,7 +105,6 @@ const mobileImage = allEntries.includes.Asset.find(
   
   main h1 {
     position: absolute;
-    width: 315.88px;
     height: 100px;
     left: -6px;
     top: 217.36px;
@@ -129,6 +134,7 @@ const mobileImage = allEntries.includes.Asset.find(
   }
 
   .whatsapp {
+    display: flex;
     background-color: #ff4800;
     width: 85px;
     height: 27px;
@@ -136,6 +142,7 @@ const mobileImage = allEntries.includes.Asset.find(
     align-items: center;
   }
   .call {
+    display: flex;
     background: #00d4c5;
     width: 74px;
     height: 27px;
@@ -143,6 +150,7 @@ const mobileImage = allEntries.includes.Asset.find(
     align-items: center;
   }
   .email {
+    display: flex;
     background: #0349f7;
     width: 74px;
     height: 27px;
@@ -165,7 +173,6 @@ const mobileImage = allEntries.includes.Asset.find(
     }
     main h1 {
       position: absolute;
-      width: 700px;
       height: 380px;
       left: 139px;
       top: 403.56px;
@@ -186,8 +193,7 @@ const mobileImage = allEntries.includes.Asset.find(
       height: 46px;
     }
     .call {
-      width: 186px;
-      height: 46px;
+      display: none;
     }
     .email {
       width: 186px;

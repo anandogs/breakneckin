@@ -41,7 +41,7 @@
     <!-- </div> -->
     <!-- <div class="footer-menu-items"> -->
     <div id="address">B2 Hawa Apartments, Andheri East, Mumbai, India</div>
-    <div id="tide">Website by Tide x Tide</div>
+    <div id="tide"><a href="https://www.tidextide.com" target="_blank" rel="noreferrer">Website by Tide x Tide</a></div>
     <!-- </div> -->
   </div>
 </footer>
@@ -108,7 +108,7 @@
       max-width: 87vw;
       display: grid;
       padding-left: 13vw;
-      padding-top: 100px;
+
       padding-bottom: 80px;
     }
     .footer-menu {
@@ -129,9 +129,13 @@
     }
   }
 
-  @media (min-width: 1500px) {
+  @media (min-width: 1200px) {
     footer {
       display: flex;
+    }
+    .footer-menu {
+      padding-left: 86px;
+      padding-top: 130px;
     }
   }
 </style>

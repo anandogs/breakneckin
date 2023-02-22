@@ -13,15 +13,14 @@
   
   let optIn: boolean = false;
 
-  let nameCheck: boolean = true;
-  let emailCheck: boolean = true;
-  let phoneCheck: boolean = true;
-  let optInCheck: boolean = true;
-  let invalidSubmission: boolean = false;
+  let nameCheck: boolean = false;
+  let emailCheck: boolean = false;
+  let phoneCheck: boolean = false;
+  let optInCheck: boolean = false;
+  let invalidSubmission: boolean = true;
   let buttonClicked: boolean = false;
 
   const updateValue = () => {
-    invalidSubmission = false;
     if (name !== "") {
       nameCheck = true;
     }
@@ -33,6 +32,14 @@
     }
     if (optIn === true) {
       optInCheck = true;
+    }
+    if (
+      nameCheck === true &&
+      emailCheck === true &&
+      phoneCheck === true &&
+      optIn === true
+    ) {
+      invalidSubmission = false;
     }
   };
 
@@ -222,7 +229,7 @@
       {#if buttonClicked}
       <button type="submit" class:disabled-button={buttonClicked} disabled> DONE </button>
       {:else}
-      <button type="submit" class:shake={invalidSubmission}> DONE </button>
+      <button type="submit" class:disabled-button={invalidSubmission}> DONE </button>
       {/if}
     </div>
   </form>

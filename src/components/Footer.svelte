@@ -1,47 +1,59 @@
 <script lang="ts">
   import logo from "../images/header/breakneck.svg";
   import instagramLogo from "../images/footer/instagram.svg";
-  export let isDarkMode:boolean = false;
+  export let isDarkMode: boolean = false;
   const currentYear = new Date().getFullYear();
 </script>
 
 <footer class:dark-mode={isDarkMode}>
-  <div >
-    <img class:light-mode-svg={isDarkMode} src={logo} alt="logo" class="logo-footer" />
+  <div>
+    <img
+      class:light-mode-svg={isDarkMode}
+      src={logo}
+      alt="logo"
+      class="logo-footer"
+    />
   </div>
   <div class="footer-menu">
-    <div class="footer-menu-items" id='uppercase-items'>
-        <a href="/policies/terms-and-conditions">
-            TERMS & CONDITIONS
-        </a>
-        <a href="/policies/privacy-policy">
-            PRIVACY POLICY
-        </a>
-        <a href="/policies/refunds-and-cancellations">
-            REFUNDS & CANCELLATIONS 
-        </a>
-    </div>
-    <div class="footer-menu-items">
-        <div>© Breakneck {currentYear}</div>
-        <a href="https://www.instagram.com/breakneck.in/" target="_blank" rel="noreferrer"><img class:light-mode-svg={isDarkMode} src={instagramLogo} alt="Instagram Logo" class="instagram-logo"></a>
-    </div>
-    <div class="footer-menu-items">
-        <div>B2 Hawa Apartments, Andheri East, Mumbai, India</div>
-        <div>Website by Tide x Tide</div>
-    </div>
+    <!-- <div class="footer-menu-items" id='uppercase-items'> -->
+    <a href="/policies/terms-and-conditions"> TERMS & CONDITIONS </a>
+    <a style="justify-self: center;" href="/policies/privacy-policy">
+      PRIVACY POLICY
+    </a>
+    <a style="justify-self: end;" href="/policies/refunds-and-cancellations">
+      REFUNDS & CANCELLATIONS
+    </a>
+    <!-- </div> -->
+    <!-- <div class="footer-menu-items"> -->
+    <div id="copyright">© Breakneck {currentYear}</div>
+    <a
+      id="instagram-logo"
+      href="https://www.instagram.com/breakneck.in/"
+      target="_blank"
+      rel="noreferrer"
+      ><img
+        class:light-mode-svg={isDarkMode}
+        src={instagramLogo}
+        alt="Instagram Logo"
+        class="instagram-logo"
+      /></a
+    >
+    <!-- </div> -->
+    <!-- <div class="footer-menu-items"> -->
+    <div id="address">B2 Hawa Apartments, Andheri East, Mumbai, India</div>
+    <div id="tide">Website by Tide x Tide</div>
+    <!-- </div> -->
   </div>
 </footer>
 
 <style>
-  
   footer {
     background-color: black;
     color: white;
     display: grid;
     row-gap: 19.48px;
-    font-family: 'Brother', Fallback, sans-serif;
+    font-family: "Brother", Fallback, sans-serif;
     padding-left: 57px;
-
   }
   .instagram-logo {
     width: 9px;
@@ -54,24 +66,33 @@
     display: grid;
     width: 75vw;
     max-width: 270px;
-    grid-template-rows: 3;
+    grid-template-columns: repeat(3, 1fr);
     row-gap: 5px;
     font-size: 6px;
     line-height: 9px;
     padding-bottom: 27.58px;
   }
-  .footer-menu-items {
-    display: flex;
-    justify-content: space-between;
-    
+
+  #copyright {
+    grid-row: 2;
+    grid-column: 1;
   }
-  #uppercase-items {
-    font-size: 6px;
-    line-height: 7.2px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;    
+  #instagram-logo {
+    grid-row: 2;
+    grid-column: 3;
+    justify-self: end;
   }
-  
+  #address {
+    grid-row: 3;
+    grid-column-start: 1;
+    grid-column-end: span 2;
+  }
+  #tide {
+    grid-row: 3;
+    grid-column: 3;
+    justify-self: end;
+  }
+
   .dark-mode {
     background-color: white;
     color: black;
@@ -81,36 +102,36 @@
     filter: invert(100%);
   }
 
-
-
   @media (min-width: 1024px) {
     footer {
-        display: flex;
-      padding-left: 230px;
-      padding-right: 407px;
-      padding-bottom: 80px; 
+      width: 87vw;
+      max-width: 87vw;
+      display: grid;
+      padding-left: 13vw;
+      padding-top: 100px;
+      padding-bottom: 80px;
     }
     .footer-menu {
-        padding-left: 86.81px;
-        width: 44vw;
-        max-width: 764px;
-        row-gap: 20px;
-        font-size: 16px;
-    line-height: 25px;
-    padding-top: 131px;
+      padding-left: 0px;
+      width: auto;
+      max-width: fit-content;
+      row-gap: 20px;
+      font-size: 16px;
+      line-height: 25px;
+      padding-top: 50px;
     }
-    #uppercase-items {
-    font-size: 18px;
-    line-height: 25px;
-    text-transform: uppercase;    
-  }
-
     .logo-footer {
-      width: 240.19px;
-      padding-top: 76px;
+      width: 168px;
+      padding-top: 100px;
     }
     .instagram-logo {
-    width: 26px;
+      width: 26px;
+    }
   }
+
+  @media (min-width: 1500px) {
+    footer {
+      display: flex;
+    }
   }
 </style>

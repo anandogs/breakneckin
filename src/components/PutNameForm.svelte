@@ -194,7 +194,7 @@
     </div>
     <div class="checkbox form-content">
       <label for="optIn">
-        <p>I ACCEPT THE TERMS OF THE LIABILITY AGREEMENT</p>
+        <a href='/policies/terms-of-liability'><p> I ACCEPT THE TERMS OF THE <span style="border-bottom: 3px solid;">LIABILITY AGREEMENT</span></p></a>
       </label>
       <img
         class="arrow-up"

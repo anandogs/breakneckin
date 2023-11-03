@@ -48,18 +48,20 @@ const mobileImage = allEntries.includes.Asset.find(
     darkMode={true}
   />
 
+    {mobileImage &&
     <img
       class="mobile-image"
       src={mobileImage.fields.file.url}
       alt={mobileImage.fields.file.description}
       width="100%"
-    />
-    <img
+    />}
+    {desktopImage &&<img
       class="desktop-image"
       src={desktopImage.fields.file.url}
       alt={desktopImage.fields.file.description}
       width="100%"
-    />
+    />}
+    
     <h1>breakneck bts</h1>
     <section>
       <div class="social">

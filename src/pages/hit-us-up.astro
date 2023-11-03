@@ -9,7 +9,7 @@ const adventureEntries = await contentfulClient.getEntries<any>({
 });
 
 const adventureLocationSelected =
-  adventureEntries.items[0].fields.adventureLocation;
+  adventureEntries.items[0] ? adventureEntries.items[0].fields.adventureLocation : null;
 
 const contentfulData = await contentfulClient.getEntries<any>({
   content_type: "hitUsUp",

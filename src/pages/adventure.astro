@@ -164,7 +164,7 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
     }
     let timeDescription = subEntry?.fields.timeDescription.map((item: any) => {
       let time = item?.fields? item.fields.time : null;
-      let description = item.fields.description;
+      let description = item.fields? item.fields.description: null;
       return {
         time: time,
         description: description,

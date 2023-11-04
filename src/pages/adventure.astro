@@ -48,6 +48,7 @@ const adventureLocation = fields.adventureLocation;
 const adventureDescription = fields.adventureDescription;
 const adventureDates = fields.adventureDates;
 
+
 const introductionGrid: EntryParams[] = introduction.map((item: any) => {
   // get id
   let id = item.sys.id;
@@ -133,6 +134,9 @@ const introductionGrid: EntryParams[] = introduction.map((item: any) => {
       prerequisites: prerequisites,
     };
   }
+  else {
+    console.log(item)
+  }
 });
 
 const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
@@ -147,6 +151,7 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
     let subEntry = allItems.find((item: any) => item.sys.id === subEntryId);
     let day = subEntry?.fields.day ? subEntry.fields.day : null;
     let date = subEntry?.fields.date ? subEntry.fields.date : null;
+
 
     let noBarLeft = subEntry?.fields.noBarLeft
       ? subEntry.fields.noBarLeft
@@ -299,7 +304,7 @@ const adventureGrid: AdventureColumnParams[][] = adventure.map((item: any) => {
     width: 315.88px;
     height: 47px;
     left: -6px;
-    top: 571.36px;
+    top: 401.36px;
     font-size: 77px;
     line-height: 47px;
     color: #ffffff;

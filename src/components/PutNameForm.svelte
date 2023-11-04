@@ -184,8 +184,7 @@
     <div class="form-content">
       <label for="medical">
         <p>
-          ANY MEDICAL CONDITIONS? EMAIL US A ‘FIT TO DIVE’ CERTIFICATE FROM YOUR
-          DOC. NO CERT, NO DIVES!
+          ANY MEDICAL CONDITIONS?
         </p>
       </label>
       <div class="form-input">

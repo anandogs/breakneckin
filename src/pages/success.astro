@@ -23,6 +23,9 @@ const mobileImage = allEntries.includes.Asset.find(
   (asset: any) => asset.sys.id === mobileImageId
 );
 
+console.log('desktopImage', desktopImage)
+console.log('mobile', mobileImage)
+
 const successHeading = success.items[0].fields.successHeading;
 
 const contentfulData = await contentfulClient.getEntries<any>({

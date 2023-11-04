@@ -96,17 +96,18 @@
       },
     ],
   };
+  window.location.href = "https://rzp.io/l/AiYuqwY"
 
-    await fetch(
-      "https://zg418763sf.execute-api.ap-south-1.amazonaws.com/sign-up",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    ).then((res) => window.location.href = "https://rzp.io/l/AiYuqwY");
+    // await fetch(
+    //   "https://zg418763sf.execute-api.ap-south-1.amazonaws.com/sign-up",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(data),
+    //   }
+    // ).then((res) => window.location.href = "https://rzp.io/l/AiYuqwY");
      
     
   };
